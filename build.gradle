@@ -1,52 +1,89 @@
+import net.minecraftforge.gradle.common.util.ModConfig
+import net.minecraftforge.gradle.common.util.RunConfig
+
 buildscript {
     repositories {
+        maven { url 'https://files.minecraftforge.net/maven' }
+        maven { url "https://plugins.gradle.org/m2/" }
         jcenter()
-        maven { url = "http://files.minecraftforge.net/maven" }
+        mavenCentral()
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
     }
 }
-apply plugin: 'net.minecraftforge.gradle.forge'
-//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
-
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
 
 version = "${mod_version}"
-group = "de.melanx.ultimatools" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "ultimatools"
-
-sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
-compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
+def env = System.getenv()
+if (env.BUILD_NUMBER) {
+    version = version + "+" + "${env.BUILD_NUMBER}"
 }
+group = 'de.melanx.ultimatools'
+archivesBaseName = "ultimatools-${minecraft_version}"
+
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
-    version = "${mc_version}-${forge_version}"
-    runDir = "run"
-    mappings = "${mappings_version}"
+    mappings channel: 'snapshot', version: mappings_version
 
-    replace "@VERSION@", project.version
-    replaceIn "LibMisc.java"
+    createRunConfig("client")
+    createRunConfig("server")
+    createRunConfig("data", { RunConfig run ->
+        run.args "--mod", "ultimatools", "--all", "--output", file("src/generated/resources/"), "--existing", file("src/main/resources")
+    })
+}
+
+def createRunConfig(String name, Closure extra = {}) {
+    minecraft.runs.create(name) { RunConfig run ->
+        run.workingDirectory project.file("run_" + name)
+        run.property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
+        run.jvmArg "-Dmixin.env.disableRefMap=true"
+        run.property "forge.logging.console.level", "debug"
+        run.mods.create("ultimatools") { ModConfig mod ->
+            source sourceSets.main
+        }
+    }.with(extra)
+}
+
+sourceSets.main.resources {
+    srcDir 'src/generated/resources'
+}
+
+jar {
+    manifest {
+        attributes([
+                "Specification-Title"     : "ultimatools",
+                "Specification-Vendor"    : "ultimatools",
+                "Specification-Version"   : "1", // We are version 1 of ourselves
+                "Implementation-Title"    : project.name,
+                "Implementation-Version"  : "${version}",
+                "Implementation-Vendor"   : "ultimatools",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+
+jar.finalizedBy('reobfJar')
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    classifier 'deobf'
+}
+
+artifacts {
+    archives jar
+    archives sourcesJar
+    archives deobfJar
 }
 
 dependencies {
-}
-
-processResources {
-    // this will ensure that this task is redone when the versions change.
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-                
-        // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-        
-    // copy everything else except the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 }

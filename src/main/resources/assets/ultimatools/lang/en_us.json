@@ -1,0 +1,26 @@
+{
+  "itemGroup.ultimatools": "Skyblock Ultima Tools",
+
+  "item.ultimatools.beginner": "Beginner",
+  "item.ultimatools.scholar": "Scholar",
+  "item.ultimatools.farmer": "Farmer",
+  "item.ultimatools.forest_runner": "Forest-Runner",
+  "item.ultimatools.knight": "Knight",
+  "item.ultimatools.lighter": "Lighter",
+  "item.ultimatools.soothsayer": "Soothsayer",
+  "item.ultimatools.blood_magician": "Blood-Magician",
+  "item.ultimatools.ultima_fighter": "Ultima-Fighter",
+  "item.ultimatools.cursed_knight": "Cursed-Knight",
+  "item.ultimatools.ultima_god": "Ultima-God",
+  "item.ultimatools.ore_better": "Ore-Better",
+
+  "item.ultimatools.krypto_beginner": "Krypto Beginner",
+  "item.ultimatools.krypto_scholar": "Krypto Scholar",
+  "item.ultimatools.krypto_farmer": "Krypto Farmer",
+  "item.ultimatools.krypto_forest_runner": "Krypto Forest-Runner",
+  "item.ultimatools.krypto_knight": "Krypto Knight",
+  "item.ultimatools.krypto_lighter": "Krypto Lighter",
+  "item.ultimatools.krypto_soothsayer": "Krypto Soothsayer",
+  "item.ultimatools.krypto_blood_magician": "Krypto Blood-Magician",
+  "item.ultimatools.krypto_cursed_knight": "Krypto Cursed-Knight"
+}
