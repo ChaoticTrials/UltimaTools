@@ -20,8 +20,26 @@ public class ServerConfig {
 
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> OVERWORLD_ORES;
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> NETHER_ORES;
+
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> ANIMALS;
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> WATER_ANIMALS;
+
+    public static ForgeConfigSpec.IntValue BEGINNER;
+    public static ForgeConfigSpec.IntValue BLOOD_MAGICIAN;
+    public static ForgeConfigSpec.IntValue CURSED_KNIGHT;
+    public static ForgeConfigSpec.IntValue FARMER;
+    public static ForgeConfigSpec.IntValue ORE_BETTER;
+    public static ForgeConfigSpec.IntValue SCHOLAR;
+    public static ForgeConfigSpec.IntValue SOOTHSAYER;
+    public static ForgeConfigSpec.IntValue ULTIMA_FIGHTER;
+    public static ForgeConfigSpec.IntValue ULTIMA_GOD;
+
+    public static ForgeConfigSpec.IntValue KRYPTO_BEGINNER;
+    public static ForgeConfigSpec.IntValue KRYPTO_BLOOD_MAGICIAN;
+    public static ForgeConfigSpec.IntValue KRYPTO_CURSED_KNIGHT;
+    public static ForgeConfigSpec.IntValue KRYPTO_FARMER;
+    public static ForgeConfigSpec.IntValue KRYPTO_SCHOLAR;
+    public static ForgeConfigSpec.IntValue KRYPTO_SOOTHSAYER;
 
     public static void init(ForgeConfigSpec.Builder builder) {
         builder.push("ores");
@@ -75,6 +93,28 @@ public class ServerConfig {
                         "minecraft:tropical_fish"
                 ), (obj) -> obj instanceof String);
         builder.pop();
+
+        builder.comment("Cooldowns for the crystals").push("cooldowns");
+        builder.push("normal");
+        BEGINNER = builder.defineInRange("beginner", 200, 0, Integer.MAX_VALUE);
+        BLOOD_MAGICIAN = builder.defineInRange("blood_magician", 1200, 0, Integer.MAX_VALUE);
+        CURSED_KNIGHT = builder.defineInRange("cursed_knight", 1200, 0, Integer.MAX_VALUE);
+        FARMER = builder.defineInRange("farmer", 1200, 0, Integer.MAX_VALUE);
+        ORE_BETTER = builder.defineInRange("ore_better", 200, 0, Integer.MAX_VALUE);
+        SCHOLAR = builder.defineInRange("scholar", 200, 0, Integer.MAX_VALUE);
+        SOOTHSAYER = builder.defineInRange("soothsayer", 200, 0, Integer.MAX_VALUE);
+        ULTIMA_FIGHTER = builder.defineInRange("ultima_fighter", 200, 0, Integer.MAX_VALUE);
+        ULTIMA_GOD = builder.defineInRange("ultima_god", 200, 0, Integer.MAX_VALUE);
+        builder.pop();
+
+        builder.push("krypto");
+        KRYPTO_BEGINNER = builder.defineInRange("krypto_beginner", 200, 0, Integer.MAX_VALUE);
+        KRYPTO_BLOOD_MAGICIAN = builder.defineInRange("krypto_blood_magician", 200, 0, Integer.MAX_VALUE);
+        KRYPTO_CURSED_KNIGHT = builder.defineInRange("krypto_cursed_knight", 200, 0, Integer.MAX_VALUE);
+        KRYPTO_FARMER = builder.defineInRange("krypto_farmer", 200, 0, Integer.MAX_VALUE);
+        KRYPTO_SCHOLAR = builder.defineInRange("krypto_scholar", 200, 0, Integer.MAX_VALUE);
+        KRYPTO_SOOTHSAYER = builder.defineInRange("krypto_soothsayer", 200, 0, Integer.MAX_VALUE);
+        builder.pop(2);
     }
 
     public static void loadConfig(ForgeConfigSpec spec, Path path) {
