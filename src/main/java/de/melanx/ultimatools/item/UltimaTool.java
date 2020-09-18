@@ -93,6 +93,11 @@ public class UltimaTool extends Item {
         }
     }
 
+    @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return false;
+    }
+
     @Nonnull
     @Override
     public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, @Nonnull PlayerEntity player, @Nonnull Hand hand) {
