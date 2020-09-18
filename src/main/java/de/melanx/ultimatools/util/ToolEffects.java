@@ -2,13 +2,13 @@ package de.melanx.ultimatools.util;
 
 import com.google.common.collect.ImmutableList;
 import de.melanx.ultimatools.lib.Function5;
+import de.melanx.ultimatools.lib.ListHandlers;
 import net.minecraft.block.*;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.WaterMobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
@@ -31,20 +31,6 @@ import java.util.List;
 import java.util.Set;
 
 public class ToolEffects {
-
-    public static List<EntityType<? extends MobEntity>> ANIMALS = ImmutableList.of(EntityType.BAT, EntityType.BEE,
-            EntityType.CAT, EntityType.CHICKEN, EntityType.COW, EntityType.DONKEY, EntityType.FOX, EntityType.HORSE,
-            EntityType.LLAMA, EntityType.MULE, EntityType.MOOSHROOM, EntityType.OCELOT, EntityType.PANDA,
-            EntityType.PARROT, EntityType.PIG, EntityType.POLAR_BEAR, EntityType.RABBIT, EntityType.SHEEP,
-            EntityType.TURTLE, EntityType.WOLF);
-
-    public static List<EntityType<? extends WaterMobEntity>> WATER_ANIMALS = ImmutableList.of(EntityType.COD,
-            EntityType.DOLPHIN, EntityType.PUFFERFISH, EntityType.SALMON, EntityType.SQUID, EntityType.TROPICAL_FISH);
-
-    public static List<Block> ORES = ImmutableList.of(Blocks.IRON_ORE, Blocks.REDSTONE_ORE, Blocks.LAPIS_ORE,
-            Blocks.GOLD_ORE, Blocks.DIAMOND_ORE, Blocks.EMERALD_ORE);
-
-    public static List<Block> ORES_NETHER = ImmutableList.of(Blocks.NETHER_QUARTZ_ORE, Blocks.NETHER_GOLD_ORE);
 
     private ToolEffects() {
 
@@ -75,15 +61,15 @@ public class ToolEffects {
         if (!player.canPlayerEdit(pos, face, player.getHeldItem(hand)))
             return false;
 
-        EntityType<? extends MobEntity> entityType;
+        EntityType<?> entityType;
         if (world.getBlockState(target).getFluidState().getFluid() == Fluids.WATER
                 || world.getBlockState(target).getFluidState().getFluid() == Fluids.FLOWING_WATER) {
-            entityType = WATER_ANIMALS.get(world.rand.nextInt(WATER_ANIMALS.size()));
+            entityType = ListHandlers.WATER_ANIMALS.get(world.rand.nextInt(ListHandlers.WATER_ANIMALS.size()));
         } else {
-            entityType = ANIMALS.get(world.rand.nextInt(ANIMALS.size()));
+            entityType = ListHandlers.ANIMALS.get(world.rand.nextInt(ListHandlers.ANIMALS.size()));
         }
 
-        MobEntity entity = entityType.create(world);
+        MobEntity entity = (MobEntity) entityType.create(world);
         if (entity == null)
             return false;
         entity.setLocationAndAngles(target.getX() + 0.5, target.getY() + 0.1, target.getZ() + 0.5, player.getRotationYawHead() - 180, 0);
@@ -118,6 +104,7 @@ public class ToolEffects {
             return false;
 
         Block block = world.getBlockState(pos).getBlock();
+        List<Block> ORES = ImmutableList.copyOf(ListHandlers.ORES);
         for (int i = 0; i < ORES.size() - 1; i++) {
             if (block == ORES.get(i)) {
                 BlockState newState = ORES.get(i + 1).getDefaultState();
@@ -127,6 +114,7 @@ public class ToolEffects {
             }
         }
 
+        List<Block> ORES_NETHER = ImmutableList.copyOf(ListHandlers.NETHER_ORES);
         for (int i = 0; i < ORES_NETHER.size() - 1; i++) {
             if (block == ORES_NETHER.get(i)) {
                 BlockState newState = ORES_NETHER.get(i + 1).getDefaultState();

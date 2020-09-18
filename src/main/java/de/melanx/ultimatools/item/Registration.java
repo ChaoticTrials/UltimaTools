@@ -1,7 +1,7 @@
 package de.melanx.ultimatools.item;
 
 import com.google.common.collect.ImmutableSet;
-import de.melanx.ultimatools.lib.LibMisc;
+import de.melanx.ultimatools.SkyblockUltimaTools;
 import de.melanx.ultimatools.util.ToolEffects;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -15,8 +15,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class Registration {
 
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, LibMisc.MODID);
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, LibMisc.MODID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SkyblockUltimaTools.MODID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SkyblockUltimaTools.MODID);
 
     public static final RegistryObject<Item> beginner = ITEMS.register("beginner", () -> new UltimaTool(ToolEffects::placeWater));
     public static final RegistryObject<Item> bloodMagician = ITEMS.register("blood_magician", () -> new UltimaTool(600, ToolEffects::spawnAnimal));

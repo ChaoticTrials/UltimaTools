@@ -1,13 +1,13 @@
 package de.melanx.ultimatools.data;
 
-import de.melanx.ultimatools.lib.LibMisc;
+import de.melanx.ultimatools.SkyblockUltimaTools;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.client.model.generators.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 
-@Mod.EventBusSubscriber(modid = LibMisc.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = SkyblockUltimaTools.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class DataHandler {
 
     @SubscribeEvent

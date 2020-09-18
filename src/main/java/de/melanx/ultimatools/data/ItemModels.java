@@ -1,7 +1,7 @@
 package de.melanx.ultimatools.data;
 
+import de.melanx.ultimatools.SkyblockUltimaTools;
 import de.melanx.ultimatools.item.Registration;
-import de.melanx.ultimatools.lib.LibMisc;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.generators.ExistingFileHelper;
@@ -13,7 +13,7 @@ import javax.annotation.Nonnull;
 public class ItemModels extends ItemModelProvider {
 
     public ItemModels(DataGenerator gen, ExistingFileHelper helper) {
-        super(gen, LibMisc.MODID, helper);
+        super(gen, SkyblockUltimaTools.MODID, helper);
     }
 
     @Override
