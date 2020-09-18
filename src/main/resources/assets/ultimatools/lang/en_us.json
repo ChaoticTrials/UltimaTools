@@ -22,5 +22,28 @@
   "item.ultimatools.krypto_lighter": "Krypto Lighter",
   "item.ultimatools.krypto_soothsayer": "Krypto Soothsayer",
   "item.ultimatools.krypto_blood_magician": "Krypto Blood-Magician",
-  "item.ultimatools.krypto_cursed_knight": "Krypto Cursed-Knight"
+  "item.ultimatools.krypto_cursed_knight": "Krypto Cursed-Knight",
+
+  "jei.ultimatools.beginner.desc": "Places water.",
+  "jei.ultimatools.blood_magician.desc": "Spawns a random animal.",
+  "jei.ultimatools.cursed_knight.desc": "Deals 30 hearts damage.",
+  "jei.ultimatools.farmer.desc": "It's like an unlimited amount of bonemeal.",
+  "jei.ultimatools.forest_runner.desc": "Crafting ingredient.",
+  "jei.ultimatools.knight.desc": "Crafting ingredient.",
+  "jei.ultimatools.lighter.desc": "Crafting ingredient.",
+  "jei.ultimatools.ore_better.desc": "Let you upgrade your ores.",
+  "jei.ultimatools.scholar.desc": "Converts dirt to grass block.",
+  "jei.ultimatools.soothsayer.desc": "Applies a potion effect to target.",
+  "jei.ultimatools.ultima_fighter.desc": "Generates a random ore if used on (cobble) stone.",
+  "jei.ultimatools.ultima_god.desc": "Places water, spawns animals or acts as bonemeal if you're sneaking. Else it converts dirt into grass block or (cobble) stone into ores.",
+
+  "jei.ultimatools.krypto_beginner.desc": "Removes a fluid.",
+  "jei.ultimatools.krypto_blood_magician.desc": "Applies regeneration to user.",
+  "jei.ultimatools.krypto_cursed_knight.desc": "Applies levitation to user.",
+  "jei.ultimatools.krypto_farmer.desc": "Converts dirt into moist farmland.",
+  "jei.ultimatools.krypto_scholar.desc": "Converts dirt into stone.",
+  "jei.ultimatools.krypto_soothsayer.desc": "Converts (cobble) stone into coal ore.",
+  "jei.ultimatools.krypto_forest_runner.desc": "Crafting ingredient.",
+  "jei.ultimatools.krypto_knight.desc": "Crafting ingredient.",
+  "jei.ultimatools.krypto_lighter.desc": "Crafting ingredient."
 }
