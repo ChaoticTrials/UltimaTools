@@ -22,6 +22,7 @@ public class SkyblockUltimaTools {
         ServerConfig.loadConfig(ServerConfig.SERVER_CONFIG, FMLPaths.GAMEDIR.get().resolve(FMLConfig.defaultConfigPath()).resolve(MODID + "-server.toml"));
         Registration.init();
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onServerStarted);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onConfigChange);
     }
 
     public static final String MODID = "ultimatools";
@@ -35,5 +36,11 @@ public class SkyblockUltimaTools {
 
     private void onServerStarted(FMLCommonSetupEvent event) {
         ListHandlers.reloadLists();
+    }
+
+    private void onConfigChange(ModConfig.ModConfigEvent event) {
+        if (event.getConfig().getModId().equals(MODID)) {
+            ListHandlers.reloadLists();
+        }
     }
 }
