@@ -87,13 +87,6 @@ public class UltimaTool extends Item {
     }
 
     @Override
-    public void inventoryTick(@Nonnull ItemStack stack, @Nonnull World world, @Nonnull Entity entity, int slot, boolean selected) {
-        if (stack.getDamage() > 0) {
-            stack.setDamage(stack.getDamage() - 1);
-        }
-    }
-
-    @Override
     public boolean isEnchantable(ItemStack stack) {
         return false;
     }
@@ -104,10 +97,9 @@ public class UltimaTool extends Item {
         if (this.applyEffect != null) {
             ItemStack held = player.getHeldItem(hand);
             if (!world.isRemote) {
-                if (held.getDamage() <= 0) {
+                if (!player.getCooldownTracker().hasCooldown(this)) {
                     if (this.applyEffect.apply(world, player, hand)) {
-                        if (!player.isCreative())
-                            held.setDamage(this.cooldown - 1);
+                        player.getCooldownTracker().setCooldown(this, this.cooldown);
                         player.setHeldItem(hand, held);
                         player.swing(hand, false);
                         return ActionResult.resultSuccess(held);
@@ -130,11 +122,9 @@ public class UltimaTool extends Item {
     public ActionResultType onItemUse(@Nonnull ItemUseContext context) {
         if (this.applyBlock != null && context.getPlayer() != null) {
             if (!context.getWorld().isRemote) {
-                ItemStack stack = context.getItem();
-                if (stack.getDamage() <= 0) {
+                if (!context.getPlayer().getCooldownTracker().hasCooldown(this)) {
                     if (this.applyBlock.apply(context.getWorld(), context.getPlayer(), context.getHand(), context.getPos(), context.getFace())) {
-                        if (!context.getPlayer().isCreative())
-                            stack.setDamage(this.cooldown - 1);
+                        context.getPlayer().getCooldownTracker().setCooldown(this, this.cooldown);
                         context.getPlayer().swing(context.getHand(), false);
                         return ActionResultType.SUCCESS;
                     } else {
@@ -156,10 +146,9 @@ public class UltimaTool extends Item {
         if (this.hitEntity != null && attacker instanceof PlayerEntity) {
             if (!attacker.getEntityWorld().isRemote) {
                 PlayerEntity player = (PlayerEntity) attacker;
-                if (stack.getDamage() <= 0) {
+                if (player.getCooldownTracker().hasCooldown(this)) {
                     if (this.hitEntity.apply(target, player)) {
-                        if (!player.isCreative())
-                            stack.setDamage(this.cooldown - 1);
+                        player.getCooldownTracker().setCooldown(this, this.cooldown);
                         player.swing(Hand.MAIN_HAND, false);
                         return true;
                     } else {
