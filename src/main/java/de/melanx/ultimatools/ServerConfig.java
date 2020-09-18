@@ -74,6 +74,7 @@ public class ServerConfig {
                         "minecraft:squid",
                         "minecraft:tropical_fish"
                 ), (obj) -> obj instanceof String);
+        builder.pop();
     }
 
     public static void loadConfig(ForgeConfigSpec spec, Path path) {
