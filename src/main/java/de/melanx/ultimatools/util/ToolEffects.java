@@ -24,6 +24,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.Tags;
 
 import java.util.Collections;
@@ -73,8 +74,8 @@ public class ToolEffects {
         if (entity == null)
             return false;
         entity.setLocationAndAngles(target.getX() + 0.5, target.getY() + 0.1, target.getZ() + 0.5, player.getRotationYawHead() - 180, 0);
-        if (world instanceof IServerWorld) {
-            entity.onInitialSpawn((IServerWorld) world, world.getDifficultyForLocation(target), SpawnReason.TRIGGERED, null, null);
+        if (world instanceof ServerWorld) {
+            entity.onInitialSpawn((ServerWorld) world, world.getDifficultyForLocation(target), SpawnReason.TRIGGERED, null, null);
         }
         if (entity instanceof AnimalEntity) {
             ((AnimalEntity) entity).setGrowingAge(-24000);
