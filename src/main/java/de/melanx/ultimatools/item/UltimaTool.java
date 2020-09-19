@@ -3,7 +3,6 @@ package de.melanx.ultimatools.item;
 import de.melanx.ultimatools.SkyblockUltimaTools;
 import de.melanx.ultimatools.lib.Function3;
 import de.melanx.ultimatools.lib.Function5;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;

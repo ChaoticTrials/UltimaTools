@@ -22,7 +22,6 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.Tags;
@@ -184,8 +183,8 @@ public class ToolEffects {
         if (!player.canPlayerEdit(pos, face, player.getHeldItem(hand)))
             return false;
 
-        if (world.getBlockState(pos).getBlock() == Blocks.COBBLESTONE
-                || world.getBlockState(pos).getBlock() == Blocks.STONE) {
+        if (Tags.Blocks.COBBLESTONE.contains(world.getBlockState(pos).getBlock())
+        || Tags.Blocks.STONE.contains(world.getBlockState(pos).getBlock())) {
 
             Block block = Tags.Blocks.ORES.getRandomElement(world.rand);
             BlockState state = block.getDefaultState();
@@ -201,22 +200,22 @@ public class ToolEffects {
 
     public static boolean ultimate(World world, PlayerEntity player, Hand hand, BlockPos pos, Direction face) {
         Block block = world.getBlockState(pos).getBlock();
-        if (block != Blocks.DIRT && block != Blocks.COARSE_DIRT && block != Blocks.FARMLAND && block != Blocks.GRASS_BLOCK) {
+        if (!Tags.Blocks.DIRT.contains(block) && block != Blocks.GRASS_BLOCK) {
             if (player.isSneaking()) {
                 return placeWater(world, player, hand, pos, face);
             }
         } else if (!player.isSneaking()) {
-            if (block == Blocks.DIRT || block == Blocks.COARSE_DIRT || block == Blocks.FARMLAND) {
+            if (Tags.Blocks.DIRT.contains(block)) {
                 BlockState newState = Blocks.GRASS_BLOCK.getDefaultState();
                 SoundType sound = newState.getSoundType();
                 world.playSound(null, pos, sound.getPlaceSound(), SoundCategory.BLOCKS, (sound.getVolume() + 1.0F) / 2.0F, sound.getPitch() * 0.8F);
                 world.setBlockState(pos, newState);
                 return true;
-            } else if (block == Blocks.COBBLESTONE || block == Blocks.STONE) {
+            } else if (Tags.Blocks.COBBLESTONE.contains(block) || Tags.Blocks.STONE.contains(block)) {
                 return generateOre(world, player, hand, pos, face);
             }
         } else {
-            if (block == Blocks.DIRT || block == Blocks.COARSE_DIRT || block == Blocks.GRASS_BLOCK || world.getBlockState(pos.offset(face)).getBlock() == Blocks.WATER) {
+            if (Tags.Blocks.DIRT.contains(block) || block == Blocks.GRASS_BLOCK || world.getBlockState(pos.offset(face)).getBlock() == Blocks.WATER) {
                 return spawnAnimal(world, player, hand, pos, face);
             } else {
                 return useBonemeal(world, player, hand, pos, face);
