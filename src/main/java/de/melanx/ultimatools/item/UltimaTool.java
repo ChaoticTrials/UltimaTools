@@ -98,7 +98,7 @@ public class UltimaTool extends Item {
             if (!world.isRemote) {
                 if (!player.getCooldownTracker().hasCooldown(this)) {
                     if (this.applyEffect.apply(world, player, hand)) {
-                        player.getCooldownTracker().setCooldown(this, this.cooldown);
+                        if (!player.isCreative()) player.getCooldownTracker().setCooldown(this, this.cooldown);
                         player.setHeldItem(hand, held);
                         player.swing(hand, false);
                         return ActionResult.resultSuccess(held);
@@ -123,7 +123,7 @@ public class UltimaTool extends Item {
             if (!context.getWorld().isRemote) {
                 if (!context.getPlayer().getCooldownTracker().hasCooldown(this)) {
                     if (this.applyBlock.apply(context.getWorld(), context.getPlayer(), context.getHand(), context.getPos(), context.getFace())) {
-                        context.getPlayer().getCooldownTracker().setCooldown(this, this.cooldown);
+                        if (!context.getPlayer().isCreative()) context.getPlayer().getCooldownTracker().setCooldown(this, this.cooldown);
                         context.getPlayer().swing(context.getHand(), false);
                         return ActionResultType.SUCCESS;
                     } else {
@@ -147,7 +147,7 @@ public class UltimaTool extends Item {
                 PlayerEntity player = (PlayerEntity) attacker;
                 if (player.getCooldownTracker().hasCooldown(this)) {
                     if (this.hitEntity.apply(target, player)) {
-                        player.getCooldownTracker().setCooldown(this, this.cooldown);
+                        if (!player.isCreative()) player.getCooldownTracker().setCooldown(this, this.cooldown);
                         player.swing(Hand.MAIN_HAND, false);
                         return true;
                     } else {
