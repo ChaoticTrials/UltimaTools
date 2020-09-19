@@ -15,29 +15,10 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Registration {
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SkyblockUltimaTools.MODID);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SkyblockUltimaTools.MODID);
-
-    private static final ImmutableSet<Block> ALL_STONES = ImmutableSet.copyOf(getAllStoneTags());
-    private static final ImmutableSet<Block> ALL_DIRTS = ImmutableSet.copyOf(getAllDirts());
-
-    private static List<Block> getAllDirts() {
-        List<Block> list = new ArrayList<>(Tags.Blocks.DIRT.getAllElements());
-        list.add(Blocks.GRASS_BLOCK);
-        return list;
-    }
-
-    private static List<Block> getAllStoneTags() {
-        List<Block> list = new ArrayList<>();
-        list.addAll(Tags.Blocks.COBBLESTONE.getAllElements());
-        list.addAll(Tags.Blocks.STONE.getAllElements());
-        return list;
-    }
 
     public static final RegistryObject<Item> beginner = ITEMS.register("beginner", () -> new UltimaTool(ServerConfig.BEGINNER.get(), ToolEffects::placeWater));
     public static final RegistryObject<Item> bloodMagician = ITEMS.register("blood_magician", () -> new UltimaTool(ServerConfig.BLOOD_MAGICIAN.get(), ToolEffects::spawnAnimal));
@@ -55,9 +36,9 @@ public class Registration {
     public static final RegistryObject<Item> kryptoBeginner = ITEMS.register("krypto_beginner", () -> new UltimaTool(ServerConfig.KRYPTO_BEGINNER.get(), ToolEffects::removeFluid));
     public static final RegistryObject<Item> kryptoBloodMagician = ITEMS.register("krypto_blood_magician", () -> new UltimaTool(ServerConfig.KRYPTO_BLOOD_MAGICIAN.get(), ToolEffects::applyRegeneration));
     public static final RegistryObject<Item> kryptoCursedKnight = ITEMS.register("krypto_cursed_knight", () -> new UltimaTool(ServerConfig.KRYPTO_CURSED_KNIGHT.get(), ToolEffects::applyLevitation));
-    public static final RegistryObject<Item> kryptoFarmer = ITEMS.register("krypto_farmer", () -> new UltimaTool(ServerConfig.KRYPTO_FARMER.get(), ToolEffects.changeBlock(ALL_DIRTS, Blocks.FARMLAND.getDefaultState().with(BlockStateProperties.MOISTURE_0_7, 7))));
-    public static final RegistryObject<Item> kryptoScholar = ITEMS.register("krypto_scholar", () -> new UltimaTool(ServerConfig.KRYPTO_SCHOLAR.get(), ToolEffects.changeBlock(ALL_STONES, Blocks.STONE)));
-    public static final RegistryObject<Item> kryptoSoothsayer = ITEMS.register("krypto_soothsayer", () -> new UltimaTool(ServerConfig.KRYPTO_SOOTHSAYER.get(), ToolEffects.changeBlock(ALL_STONES, Blocks.COAL_ORE)));
+    public static final RegistryObject<Item> kryptoFarmer = ITEMS.register("krypto_farmer", () -> new UltimaTool(ToolEffects.changeBlock(ImmutableSet.of(Blocks.DIRT, Blocks.COARSE_DIRT, Blocks.GRASS_BLOCK), Blocks.FARMLAND.getDefaultState().with(BlockStateProperties.MOISTURE_0_7, 7))));
+    public static final RegistryObject<Item> kryptoScholar = ITEMS.register("krypto_scholar", () -> new UltimaTool(ToolEffects.changeBlock(ImmutableSet.of(Blocks.DIRT, Blocks.COARSE_DIRT, Blocks.GRASS_BLOCK), Blocks.STONE)));
+    public static final RegistryObject<Item> kryptoSoothsayer = ITEMS.register("krypto_soothsayer", () -> new UltimaTool(ToolEffects.changeBlock(ImmutableSet.of(Blocks.STONE, Blocks.COBBLESTONE), Blocks.COAL_ORE)));
     public static final RegistryObject<Item> kryptoForestRunner = ITEMS.register("krypto_forest_runner", UltimaCrafting::new);
     public static final RegistryObject<Item> kryptoKnight = ITEMS.register("krypto_knight", UltimaCrafting::new);
     public static final RegistryObject<Item> kryptoLighter = ITEMS.register("krypto_lighter", UltimaCrafting::new);
