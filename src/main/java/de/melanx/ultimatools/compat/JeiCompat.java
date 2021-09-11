@@ -29,7 +29,7 @@ public class JeiCompat implements IModPlugin {
 
     @Nonnull
     private static Component getDescKey(ResourceLocation name) {
-        return new TranslatableComponent( "jei." + name.getNamespace() + "." + name.getPath() + ".desc");
+        return new TranslatableComponent("jei." + name.getNamespace() + "." + name.getPath() + ".desc");
     }
 
     @Override
