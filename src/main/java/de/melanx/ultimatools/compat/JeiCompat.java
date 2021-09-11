@@ -6,16 +6,19 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.registration.IRecipeRegistration;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.fmllegacy.RegistryObject;
 
 import javax.annotation.Nonnull;
 
-@SuppressWarnings("ConstantConditions")
 @JeiPlugin
+@SuppressWarnings("ConstantConditions")
 public class JeiCompat implements IModPlugin {
+    
     public static final ResourceLocation PLUGIN_UID = new ResourceLocation(SkyblockUltimaTools.MODID, "plugin/main");
 
     @Override
@@ -25,8 +28,8 @@ public class JeiCompat implements IModPlugin {
     }
 
     @Nonnull
-    private static String getDescKey(ResourceLocation name) {
-        return "jei." + name.getNamespace() + "." + name.getPath() + ".desc";
+    private static Component getDescKey(ResourceLocation name) {
+        return new TranslatableComponent( "jei." + name.getNamespace() + "." + name.getPath() + ".desc");
     }
 
     @Override

@@ -3,10 +3,10 @@ package de.melanx.ultimatools.data;
 import de.melanx.ultimatools.SkyblockUltimaTools;
 import de.melanx.ultimatools.item.Registration;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fmllegacy.RegistryObject;
 
 import javax.annotation.Nonnull;
 

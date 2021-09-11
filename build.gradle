@@ -1,99 +1,14 @@
-import net.minecraftforge.gradle.common.util.ModConfig
-import net.minecraftforge.gradle.common.util.RunConfig
-
 buildscript {
-    repositories {
-        maven { url 'https://files.minecraftforge.net/maven' }
-        maven { url "https://plugins.gradle.org/m2/" }
-        jcenter()
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
-    }
-}
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
-
-version = "${mod_version}"
-def env = System.getenv()
-if (env.BUILD_NUMBER) {
-    version = version + "+" + "${env.BUILD_NUMBER}"
-}
-group = 'de.melanx.ultimatools'
-archivesBaseName = "ultimatools-${minecraft_version}"
-
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
-
-minecraft {
-    mappings channel: 'snapshot', version: mappings_version
-
-    createRunConfig("client")
-    createRunConfig("server")
-    createRunConfig("data", { RunConfig run ->
-        run.args "--mod", "ultimatools", "--all", "--output", file("src/generated/resources/"), "--existing", file("src/main/resources")
-    })
+    apply from: 'https://raw.githubusercontent.com/noeppi-noeppi/ModUtils/v2/buildscript.gradle', to: buildscript
 }
 
-def createRunConfig(String name, Closure extra = {}) {
-    minecraft.runs.create(name) { RunConfig run ->
-        run.workingDirectory project.file("run_" + name)
-        run.property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
-        run.jvmArg "-Dmixin.env.disableRefMap=true"
-        run.property "forge.logging.console.level", "debug"
-        run.mods.create("ultimatools") { ModConfig mod ->
-            source sourceSets.main
-        }
-    }.with(extra)
-}
-
-sourceSets.main.resources {
-    srcDir 'src/generated/resources'
-}
-
-jar {
-    manifest {
-        attributes([
-                "Specification-Title"     : "ultimatools",
-                "Specification-Vendor"    : "ultimatools",
-                "Specification-Version"   : "1", // We are version 1 of ourselves
-                "Implementation-Title"    : project.name,
-                "Implementation-Version"  : "${version}",
-                "Implementation-Vendor"   : "ultimatools",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
-    }
-}
-
-jar.finalizedBy('reobfJar')
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-task deobfJar(type: Jar) {
-    from sourceSets.main.output
-    classifier 'deobf'
-}
-
-artifacts {
-    archives jar
-    archives sourcesJar
-    archives deobfJar
-}
+apply from: 'https://raw.githubusercontent.com/noeppi-noeppi/ModUtils/v2/mod.gradle'
 
 repositories {
-    maven {
-        // location of the maven that hosts JEI files
-        name = "Progwml6 maven"
-        url = "https://dvs1.progwml6.com/files/maven/"
-    }
+    maven { url = 'https://dvs1.progwml6.com/files/maven/' }
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}")
-    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}:api")
+    compileOnly fg.deobf("mezz.jei:jei-1.17.1:8.0.0.16:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-1.17.1:8.0.0.16")
 }
