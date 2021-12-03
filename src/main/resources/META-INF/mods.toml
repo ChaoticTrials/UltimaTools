@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[37,)"
+loaderVersion="[38,)"
 issueTrackerURL="https://github.com/MelanX/ultimatools/issues/"
 license="MIT License"
 
@@ -7,20 +7,20 @@ license="MIT License"
 modId="ultimatools"
 version="${file.jarVersion}"
 displayName="Skyblock Ultima Tools"
-updateJSONURL="https://raw.githubusercontent.com/MelanX/mod-updatechecker-files/master/ultimatools.json"
+updateJSONURL="https://assets.melanx.de/updates/skyblock-ultima-tools.json"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/skyblock-ultima-tools"
 authors="MelanX"
 
 [[dependencies.ultimatools]]
-    modId="minecraft"
+    modId="forge"
     mandatory=true
-    versionRange="[1.17.1, 1.18)"
+    versionRange="[38,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.ultimatools]]
-    modId="forge"
+    modId="minecraft"
     mandatory=true
-    versionRange="[37,)"
+    versionRange="[1.18, 1.19)"
     ordering="NONE"
     side="BOTH"
