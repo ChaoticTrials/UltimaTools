@@ -5,11 +5,14 @@ import de.melanx.ultimatools.lib.Function5;
 import de.melanx.ultimatools.lib.ListHandlers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
@@ -30,13 +33,17 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.Tags;
+import org.apache.commons.compress.utils.Lists;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.function.Predicate;
 
 public class ToolEffects {
+
+    private static final Random RANDOM = new Random();
 
     private ToolEffects() {
 
@@ -151,18 +158,29 @@ public class ToolEffects {
         return changeBlock(from::contains, to);
     }
 
-    public static Function5<Level, Player, InteractionHand, BlockPos, Direction, Boolean> changeBlock(Tag<Block> from, Block to) {
+    public static Function5<Level, Player, InteractionHand, BlockPos, Direction, Boolean> changeBlock(TagKey<Block> from, Block to) {
         return changeBlock(from, to.defaultBlockState());
     }
 
-    public static Function5<Level, Player, InteractionHand, BlockPos, Direction, Boolean> changeBlock(Tag<Block> from, BlockState to) {
-        return changeBlock(from::contains, to);
+    public static Function5<Level, Player, InteractionHand, BlockPos, Direction, Boolean> changeBlock(TagKey<Block> from, BlockState to) {
+        Predicate<Block> predicate = block -> {
+            //noinspection deprecation
+            for (Holder<Block> holder : Registry.BLOCK.getTagOrEmpty(from)) {
+                if (block == holder.value()) {
+                    return true;
+                }
+            }
+
+            return false;
+        };
+
+        return changeBlock(predicate, to);
     }
 
     public static Function5<Level, Player, InteractionHand, BlockPos, Direction, Boolean> changeBlock(Predicate<Block> from, Block to) {
         return changeBlock(from, to.defaultBlockState());
     }
-    
+
     public static Function5<Level, Player, InteractionHand, BlockPos, Direction, Boolean> changeBlock(Predicate<Block> from, BlockState to) {
         return (Level world, Player player, InteractionHand hand, BlockPos pos, Direction face) -> {
             if (!player.mayUseItemAt(pos, face, player.getItemInHand(hand)))
@@ -197,10 +215,10 @@ public class ToolEffects {
         if (!player.mayUseItemAt(pos, face, player.getItemInHand(hand)))
             return false;
 
-        if (Tags.Blocks.COBBLESTONE.contains(level.getBlockState(pos).getBlock())
-        || Tags.Blocks.STONE.contains(level.getBlockState(pos).getBlock())) {
+        if (level.getBlockState(pos).is(Tags.Blocks.COBBLESTONE)
+                || level.getBlockState(pos).is(Tags.Blocks.STONE)) {
 
-            Block block = Tags.Blocks.ORES.getRandomElement(level.random);
+            Block block = ToolEffects.getRandomBlock(Tags.Blocks.ORES);
             BlockState state = block.defaultBlockState();
             SoundType sound = state.getSoundType();
             level.playSound(null, pos, sound.getPlaceSound(), SoundSource.BLOCKS, (sound.getVolume() + 1.0F) / 2.0F, sound.getPitch() * 0.8F);
@@ -213,23 +231,23 @@ public class ToolEffects {
     }
 
     public static boolean ultimate(Level level, Player player, InteractionHand hand, BlockPos pos, Direction face) {
-        Block block = level.getBlockState(pos).getBlock();
-        if (!Tags.Blocks.DIRT.contains(block) && block != Blocks.GRASS_BLOCK && !(block instanceof BonemealableBlock)) {
+        BlockState block = level.getBlockState(pos);
+        if (!block.is(BlockTags.DIRT) && !block.is(Blocks.GRASS_BLOCK) && !(block instanceof BonemealableBlock)) {
             if (player.isShiftKeyDown()) {
                 return placeWater(level, player, hand, pos, face);
             }
         } else if (!player.isShiftKeyDown()) {
-            if (Tags.Blocks.DIRT.contains(block)) {
+            if (block.is(BlockTags.DIRT)) {
                 BlockState newState = Blocks.GRASS_BLOCK.defaultBlockState();
                 SoundType sound = newState.getSoundType();
                 level.playSound(null, pos, sound.getPlaceSound(), SoundSource.BLOCKS, (sound.getVolume() + 1.0F) / 2.0F, sound.getPitch() * 0.8F);
                 level.setBlockAndUpdate(pos, newState);
                 return true;
-            } else if (Tags.Blocks.COBBLESTONE.contains(block) || Tags.Blocks.STONE.contains(block)) {
+            } else if (block.is(Tags.Blocks.COBBLESTONE) || block.is(Tags.Blocks.STONE)) {
                 return generateOre(level, player, hand, pos, face);
             }
         } else {
-            if (Tags.Blocks.DIRT.contains(block) || block == Blocks.GRASS_BLOCK || level.getBlockState(pos.relative(face)).getBlock() == Blocks.WATER) {
+            if (block.is(BlockTags.DIRT) || block.is(Blocks.GRASS_BLOCK) || level.getBlockState(pos.relative(face)).getBlock() == Blocks.WATER) {
                 return spawnAnimal(level, player, hand, pos, face);
             } else {
                 return useBonemeal(level, player, hand, pos, face);
@@ -259,10 +277,22 @@ public class ToolEffects {
                     for (int x = 0; x < 5; ++x) {
                         level.addParticle(ParticleTypes.POOF, pos.getX() + level.random.nextDouble(), pos.getY() + level.random.nextDouble(), pos.getZ() + level.random.nextDouble(), 0.0D, 0.0D, 0.0D);
                     }
+
                     return true;
                 }
             }
         }
+
         return false;
+    }
+
+    private static Block getRandomBlock(TagKey<Block> key) {
+        List<Block> blocks = Lists.newArrayList();
+        //noinspection deprecation
+        for (Holder<Block> holder : Registry.BLOCK.getTagOrEmpty(key)) {
+            blocks.add(holder.value());
+        }
+
+        return blocks.get(RANDOM.nextInt(blocks.size()));
     }
 }
