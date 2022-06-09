@@ -2,11 +2,11 @@ package de.melanx.ultimatools.lib;
 
 import de.melanx.ultimatools.ServerConfig;
 import de.melanx.ultimatools.SkyblockUltimaTools;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class ListHandlers {
             EntityType<?> entity = ForgeRegistries.ENTITIES.getValue(ResourceLocation.tryParse(string));
             if (entity != null) {
                 if (entity.getCategory() == MobCategory.CREATURE || entity.getCategory() == MobCategory.AMBIENT) {
-                    if (entity.getRegistryName().toString().equals(string)) {
+                    if (ForgeRegistries.ENTITIES.getKey(entity).toString().equals(string)) {
                         ANIMALS.add(entity);
                     } else {
                         SkyblockUltimaTools.LOGGER.error("Entity '{}' not found", string);
@@ -68,7 +68,7 @@ public class ListHandlers {
             EntityType<?> entity = ForgeRegistries.ENTITIES.getValue(ResourceLocation.tryParse(string));
             if (entity != null) {
                 if (entity.getCategory() == MobCategory.WATER_CREATURE || entity.getCategory() == MobCategory.WATER_AMBIENT) {
-                    if (entity.getRegistryName().toString().equals(string)) {
+                    if (ForgeRegistries.ENTITIES.getKey(entity).toString().equals(string)) {
                         WATER_ANIMALS.add(entity);
                     } else {
                         SkyblockUltimaTools.LOGGER.error("Entity '{}' not found", string);

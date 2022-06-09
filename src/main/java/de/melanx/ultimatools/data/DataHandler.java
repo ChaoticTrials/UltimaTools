@@ -16,7 +16,7 @@ public class DataHandler {
         ExistingFileHelper helper = e.getExistingFileHelper();
 
         if (e.includeClient()) {
-            gen.addProvider(new ItemModels(gen, helper));
+            gen.addProvider(true, new ItemModels(gen, helper));
         }
     }
 }

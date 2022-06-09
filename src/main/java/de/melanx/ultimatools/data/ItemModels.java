@@ -6,6 +6,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nonnull;
@@ -24,7 +25,7 @@ public class ItemModels extends ItemModelProvider {
 
     private void generateItem(Item item) {
         @SuppressWarnings("ConstantConditions")
-        String path = item.getRegistryName().getPath();
+        String path = ForgeRegistries.ITEMS.getKey(item).getPath();
         this.getBuilder(path).parent(this.getExistingFile(this.mcLoc("item/handheld")))
                 .texture("layer0", "item/" + path);
     }
