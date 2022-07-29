@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[41,)"
+loaderVersion="[42,)"
 issueTrackerURL="https://github.com/MelanX/ultimatools/issues/"
 license="MIT License"
 
@@ -14,13 +14,13 @@ authors="MelanX"
 [[dependencies.ultimatools]]
     modId="forge"
     mandatory=true
-    versionRange="[41.0.3,)"
+    versionRange="[42,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.ultimatools]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19, 1.20)"
+    versionRange="[1.19.1, 1.20)"
     ordering="NONE"
     side="BOTH"

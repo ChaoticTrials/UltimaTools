@@ -9,5 +9,5 @@ repositories {
 }
 
 dependencies {
-//    implementation fg.deobf("mezz.jei:jei-1.18.2:9.4.1.116")
+    implementation fg.deobf("mezz.jei:jei-1.19.1-forge:11.2.0.241")
 }

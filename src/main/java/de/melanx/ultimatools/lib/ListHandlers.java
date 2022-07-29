@@ -47,10 +47,10 @@ public class ListHandlers {
     public static void fillAnimals() {
         ANIMALS.clear();
         ServerConfig.ANIMALS.get().forEach(string -> {
-            EntityType<?> entity = ForgeRegistries.ENTITIES.getValue(ResourceLocation.tryParse(string));
+            EntityType<?> entity = ForgeRegistries.ENTITY_TYPES.getValue(ResourceLocation.tryParse(string));
             if (entity != null) {
                 if (entity.getCategory() == MobCategory.CREATURE || entity.getCategory() == MobCategory.AMBIENT) {
-                    if (ForgeRegistries.ENTITIES.getKey(entity).toString().equals(string)) {
+                    if (ForgeRegistries.ENTITY_TYPES.getKey(entity).toString().equals(string)) {
                         ANIMALS.add(entity);
                     } else {
                         SkyblockUltimaTools.LOGGER.error("Entity '{}' not found", string);
@@ -65,10 +65,10 @@ public class ListHandlers {
     public static void fillWaterAnimals() {
         WATER_ANIMALS.clear();
         ServerConfig.WATER_ANIMALS.get().forEach(string -> {
-            EntityType<?> entity = ForgeRegistries.ENTITIES.getValue(ResourceLocation.tryParse(string));
+            EntityType<?> entity = ForgeRegistries.ENTITY_TYPES.getValue(ResourceLocation.tryParse(string));
             if (entity != null) {
                 if (entity.getCategory() == MobCategory.WATER_CREATURE || entity.getCategory() == MobCategory.WATER_AMBIENT) {
-                    if (ForgeRegistries.ENTITIES.getKey(entity).toString().equals(string)) {
+                    if (ForgeRegistries.ENTITY_TYPES.getKey(entity).toString().equals(string)) {
                         WATER_ANIMALS.add(entity);
                     } else {
                         SkyblockUltimaTools.LOGGER.error("Entity '{}' not found", string);
