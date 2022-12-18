@@ -14,7 +14,7 @@ import javax.annotation.Nonnull;
 public class ItemModels extends ItemModelProvider {
 
     public ItemModels(DataGenerator gen, ExistingFileHelper helper) {
-        super(gen, SkyblockUltimaTools.MODID, helper);
+        super(gen.getPackOutput(), SkyblockUltimaTools.MODID, helper);
     }
 
     @Override

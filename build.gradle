@@ -1,13 +1,13 @@
 buildscript {
-    apply from: 'https://noeppi-noeppi.github.io/ModUtils/v3/buildscript.gradle', to: buildscript
+    apply from: 'https://moddingx.github.io/ModUtils/v4/buildscript.gradle', to: buildscript
 }
 
-apply from: 'https://noeppi-noeppi.github.io/ModUtils/v3/mod.gradle'
+apply from: 'https://moddingx.github.io/ModUtils/v4/mod.gradle'
 
 repositories {
     maven { url = 'https://dvs1.progwml6.com/files/maven/' }
 }
 
 dependencies {
-    implementation fg.deobf("mezz.jei:jei-1.19.1-forge:11.2.0.241")
+//    implementation fg.deobf("mezz.jei:jei-1.19.1-forge:11.2.0.241")
 }

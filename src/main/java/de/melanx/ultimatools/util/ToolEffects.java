@@ -6,8 +6,8 @@ import de.melanx.ultimatools.lib.ListHandlers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -165,7 +165,7 @@ public class ToolEffects {
     public static Function5<Level, Player, InteractionHand, BlockPos, Direction, Boolean> changeBlock(TagKey<Block> from, BlockState to) {
         Predicate<Block> predicate = block -> {
             //noinspection deprecation
-            for (Holder<Block> holder : Registry.BLOCK.getTagOrEmpty(from)) {
+            for (Holder<Block> holder : BuiltInRegistries.BLOCK.getTagOrEmpty(from)) {
                 if (block == holder.value()) {
                     return true;
                 }
@@ -289,7 +289,7 @@ public class ToolEffects {
     private static Block getRandomBlock(TagKey<Block> key) {
         List<Block> blocks = Lists.newArrayList();
         //noinspection deprecation
-        for (Holder<Block> holder : Registry.BLOCK.getTagOrEmpty(key)) {
+        for (Holder<Block> holder : BuiltInRegistries.BLOCK.getTagOrEmpty(key)) {
             blocks.add(holder.value());
         }
 

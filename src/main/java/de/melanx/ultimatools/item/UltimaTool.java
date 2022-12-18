@@ -1,18 +1,17 @@
 package de.melanx.ultimatools.item;
 
-import de.melanx.ultimatools.SkyblockUltimaTools;
 import de.melanx.ultimatools.lib.Function3;
 import de.melanx.ultimatools.lib.Function5;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.core.Direction;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
@@ -30,7 +29,7 @@ public class UltimaTool extends Item {
     }
 
     public UltimaTool(int cooldown, Function3<Level, Player, InteractionHand, Boolean> applyEffect) {
-        super(new Item.Properties().stacksTo(1).durability(cooldown).tab(SkyblockUltimaTools.TAB));
+        super(new Item.Properties().stacksTo(1).durability(cooldown));
         this.cooldown = cooldown;
         this.applyEffect = applyEffect;
         this.applyBlock = null;
@@ -42,7 +41,7 @@ public class UltimaTool extends Item {
     }
 
     public UltimaTool(int cooldown, Function5<Level, Player, InteractionHand, BlockPos, Direction, Boolean> applyBlock) {
-        super(new Item.Properties().stacksTo(1).durability(cooldown).tab(SkyblockUltimaTools.TAB));
+        super(new Item.Properties().stacksTo(1).durability(cooldown));
         this.cooldown = cooldown;
         this.applyEffect = null;
         this.applyBlock = applyBlock;
@@ -54,7 +53,7 @@ public class UltimaTool extends Item {
     }
 
     public UltimaTool(int cooldown, Function3<Level, Player, InteractionHand, Boolean> applyEffect, BiFunction<LivingEntity, Player, Boolean> hitEntity) {
-        super(new Item.Properties().stacksTo(1).durability(cooldown).tab(SkyblockUltimaTools.TAB));
+        super(new Item.Properties().stacksTo(1).durability(cooldown));
         this.cooldown = cooldown;
         this.applyEffect = applyEffect;
         this.applyBlock = null;
@@ -66,7 +65,7 @@ public class UltimaTool extends Item {
     }
 
     public UltimaTool(int cooldown, BiFunction<LivingEntity, Player, Boolean> hitEntity) {
-        super(new Item.Properties().stacksTo(1).durability(cooldown).tab(SkyblockUltimaTools.TAB));
+        super(new Item.Properties().stacksTo(1).durability(cooldown));
         this.cooldown = cooldown;
         this.applyEffect = null;
         this.applyBlock = null;
@@ -78,7 +77,7 @@ public class UltimaTool extends Item {
     }
 
     public UltimaTool(int cooldown, Function5<Level, Player, InteractionHand, BlockPos, Direction, Boolean> applyBlock, BiFunction<LivingEntity, Player, Boolean> hitEntity) {
-        super(new Item.Properties().stacksTo(1).durability(cooldown).tab(SkyblockUltimaTools.TAB));
+        super(new Item.Properties().stacksTo(1).durability(cooldown));
         this.cooldown = cooldown;
         this.applyEffect = null;
         this.applyBlock = applyBlock;
