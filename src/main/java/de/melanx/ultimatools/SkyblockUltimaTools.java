@@ -38,7 +38,7 @@ public class SkyblockUltimaTools {
         event.registerCreativeModeTab(new ResourceLocation(MODID, "tab"), builder -> {
             builder.title(Component.literal("Skyblock Ultima Tools"))
                     .icon(() -> new ItemStack(Registration.ultimaGod.get()))
-                    .displayItems((enabledFeatures, output, hasPermissions) -> {
+                    .displayItems((params, output) -> {
                         for (RegistryObject<Item> entry : Registration.ITEMS.getEntries()) {
                             output.accept(entry.get());
                         }

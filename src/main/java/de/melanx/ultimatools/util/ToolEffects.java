@@ -14,8 +14,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
@@ -99,7 +97,7 @@ public class ToolEffects {
 
     public static boolean applyMagicDamage(LivingEntity target, Player player) {
         if (target.isAlive()) {
-            target.hurt(new EntityDamageSource(DamageSource.MAGIC.getMsgId(), player).bypassArmor().setMagic(), 60);
+            target.hurt(player.level.damageSources().indirectMagic(player, null), 60);
             return true;
         }
         return false;
@@ -200,7 +198,7 @@ public class ToolEffects {
     public static boolean applyPotion(LivingEntity target, Player player) {
         if (target.isAlive()) {
             switch (player.getCommandSenderWorld().random.nextInt(5)) {
-                case 0 -> target.hurt(new EntityDamageSource(DamageSource.MAGIC.getMsgId(), player).bypassArmor().setMagic(), 10);
+                case 0 -> target.hurt(player.level.damageSources().indirectMagic(player, null), 10);
                 case 1 -> target.addEffect(new MobEffectInstance(MobEffects.POISON, 600));
                 case 2 -> target.addEffect(new MobEffectInstance(MobEffects.WITHER, 600));
                 case 3 -> target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 600));
