@@ -1,13 +1,16 @@
 buildscript {
-    apply from: 'https://moddingx.github.io/ModUtils/v4/buildscript.gradle', to: buildscript
+    apply from: 'https://moddingx.github.io/ModUtils/v5/buildscript.gradle', to: buildscript
 }
 
-apply from: 'https://moddingx.github.io/ModUtils/v4/mod.gradle'
+apply from: 'https://moddingx.github.io/ModUtils/v5/mod.gradle'
 
 repositories {
-    maven { url = 'https://dvs1.progwml6.com/files/maven/' }
+    maven {
+        name = 'JEI'
+        url = 'https://maven.blamejared.com/'
+    }
 }
 
 dependencies {
-//    implementation fg.deobf("mezz.jei:jei-1.19.1-forge:11.2.0.241")
+//    implementation fg.deobf("mezz.jei:jei-1.20-forge:14.0.0.11")
 }

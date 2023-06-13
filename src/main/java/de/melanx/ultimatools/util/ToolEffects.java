@@ -85,6 +85,7 @@ public class ToolEffects {
             return false;
         entity.moveTo(target.getX() + 0.5, target.getY() + 0.1, target.getZ() + 0.5, player.getYHeadRot() - 180, 0);
         if (level instanceof ServerLevel) {
+            //noinspection deprecation,OverrideOnly
             entity.finalizeSpawn((ServerLevel) level, level.getCurrentDifficultyAt(target), MobSpawnType.TRIGGERED, null, null);
         }
         if (entity instanceof Animal) {
@@ -97,7 +98,8 @@ public class ToolEffects {
 
     public static boolean applyMagicDamage(LivingEntity target, Player player) {
         if (target.isAlive()) {
-            target.hurt(player.level.damageSources().indirectMagic(player, null), 60);
+            //noinspection resource
+            target.hurt(player.level().damageSources().indirectMagic(player, null), 60);
             return true;
         }
         return false;
@@ -198,7 +200,8 @@ public class ToolEffects {
     public static boolean applyPotion(LivingEntity target, Player player) {
         if (target.isAlive()) {
             switch (player.getCommandSenderWorld().random.nextInt(5)) {
-                case 0 -> target.hurt(player.level.damageSources().indirectMagic(player, null), 10);
+                case 0 -> //noinspection resource
+                        target.hurt(player.level().damageSources().indirectMagic(player, null), 10);
                 case 1 -> target.addEffect(new MobEffectInstance(MobEffects.POISON, 600));
                 case 2 -> target.addEffect(new MobEffectInstance(MobEffects.WITHER, 600));
                 case 3 -> target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 600));

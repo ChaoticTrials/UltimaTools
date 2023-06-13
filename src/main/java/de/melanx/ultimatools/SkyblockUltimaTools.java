@@ -2,11 +2,11 @@ package de.melanx.ultimatools;
 
 import de.melanx.ultimatools.item.Registration;
 import de.melanx.ultimatools.lib.ListHandlers;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -15,6 +15,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLConfig;
 import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,15 +35,17 @@ public class SkyblockUltimaTools {
     public static final String MODID = "ultimatools";
     public static final Logger LOGGER = LogManager.getLogger(MODID);
 
-    private void creativeModTab(CreativeModeTabEvent.Register event) {
-        event.registerCreativeModeTab(new ResourceLocation(MODID, "tab"), builder -> {
-            builder.title(Component.literal("Skyblock Ultima Tools"))
+    private void creativeModTab(RegisterEvent event) {
+        event.register(Registries.CREATIVE_MODE_TAB, helper -> {
+            helper.register(MODID, CreativeModeTab.builder()
+                    .title(Component.literal("Skyblock Ultima Tools"))
                     .icon(() -> new ItemStack(Registration.ultimaGod.get()))
                     .displayItems((params, output) -> {
                         for (RegistryObject<Item> entry : Registration.ITEMS.getEntries()) {
                             output.accept(entry.get());
                         }
-                    });
+                    })
+                    .build());
         });
     }
 
