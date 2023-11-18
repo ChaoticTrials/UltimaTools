@@ -233,10 +233,8 @@ public class ToolEffects {
 
     public static boolean ultimate(Level level, Player player, InteractionHand hand, BlockPos pos, Direction face) {
         BlockState block = level.getBlockState(pos);
-        if (!block.is(BlockTags.DIRT) && !block.is(Blocks.GRASS_BLOCK) && !(block instanceof BonemealableBlock)) {
-            if (player.isShiftKeyDown()) {
-                return placeWater(level, player, hand, pos, face);
-            }
+        if (!block.is(BlockTags.DIRT) && !block.is(Blocks.GRASS_BLOCK) && !(block.getBlock() instanceof BonemealableBlock) && player.isShiftKeyDown()) {
+            return placeWater(level, player, hand, pos, face);
         } else if (!player.isShiftKeyDown()) {
             if (block.is(BlockTags.DIRT)) {
                 BlockState newState = Blocks.GRASS_BLOCK.defaultBlockState();
