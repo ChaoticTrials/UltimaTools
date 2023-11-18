@@ -144,7 +144,7 @@ public class UltimaTool extends Item {
         if (this.hitEntity != null && attacker instanceof Player) {
             if (!attacker.getCommandSenderWorld().isClientSide) {
                 Player player = (Player) attacker;
-                if (player.getCooldowns().isOnCooldown(this)) {
+                if (!player.getCooldowns().isOnCooldown(this)) {
                     if (this.hitEntity.apply(target, player)) {
                         if (!player.isCreative()) player.getCooldowns().addCooldown(this, this.cooldown);
                         player.swing(InteractionHand.MAIN_HAND, false);
