@@ -30,7 +30,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.Tags;
+import net.neoforged.neoforge.common.Tags;
 import org.apache.commons.compress.utils.Lists;
 
 import java.util.Collections;
@@ -86,7 +86,7 @@ public class ToolEffects {
         entity.moveTo(target.getX() + 0.5, target.getY() + 0.1, target.getZ() + 0.5, player.getYHeadRot() - 180, 0);
         if (level instanceof ServerLevel) {
             //noinspection deprecation,OverrideOnly
-            entity.finalizeSpawn((ServerLevel) level, level.getCurrentDifficultyAt(target), MobSpawnType.TRIGGERED, null, null);
+            entity.finalizeSpawn((ServerLevel) level, level.getCurrentDifficultyAt(target), MobSpawnType.TRIGGERED, null);
         }
         if (entity instanceof Animal) {
             ((Animal) entity).setAge(-24000);
@@ -98,7 +98,6 @@ public class ToolEffects {
 
     public static boolean applyMagicDamage(LivingEntity target, Player player) {
         if (target.isAlive()) {
-            //noinspection resource
             target.hurt(player.level().damageSources().indirectMagic(player, null), 60);
             return true;
         }
@@ -121,7 +120,7 @@ public class ToolEffects {
         for (int i = 0; i < ORES.size() - 1; i++) {
             if (block == ORES.get(i)) {
                 BlockState newState = ORES.get(i + 1).defaultBlockState();
-                SoundType sound = newState.getSoundType();
+                SoundType sound = block.getSoundType(newState, level, pos, player);
                 level.playSound(null, pos, sound.getPlaceSound(), SoundSource.BLOCKS, (sound.getVolume() + 1.0F) / 2.0F, sound.getPitch() * 0.8F);
                 level.setBlockAndUpdate(pos, newState);
                 return true;
@@ -132,7 +131,7 @@ public class ToolEffects {
         for (int i = 0; i < ORES_NETHER.size() - 1; i++) {
             if (block == ORES_NETHER.get(i)) {
                 BlockState newState = ORES_NETHER.get(i + 1).defaultBlockState();
-                SoundType sound = newState.getSoundType();
+                SoundType sound = block.getSoundType(newState, level, pos, player);
                 level.playSound(null, pos, sound.getPlaceSound(), SoundSource.BLOCKS, (sound.getVolume() + 1.0F) / 2.0F, sound.getPitch() * 0.8F);
                 level.setBlockAndUpdate(pos, newState);
                 return true;
@@ -164,7 +163,6 @@ public class ToolEffects {
 
     public static Function5<Level, Player, InteractionHand, BlockPos, Direction, Boolean> changeBlock(TagKey<Block> from, BlockState to) {
         Predicate<Block> predicate = block -> {
-            //noinspection deprecation
             for (Holder<Block> holder : BuiltInRegistries.BLOCK.getTagOrEmpty(from)) {
                 if (block == holder.value()) {
                     return true;
@@ -182,16 +180,16 @@ public class ToolEffects {
     }
 
     public static Function5<Level, Player, InteractionHand, BlockPos, Direction, Boolean> changeBlock(Predicate<Block> from, BlockState to) {
-        return (Level world, Player player, InteractionHand hand, BlockPos pos, Direction face) -> {
+        return (Level level, Player player, InteractionHand hand, BlockPos pos, Direction face) -> {
             if (!player.mayUseItemAt(pos, face, player.getItemInHand(hand)))
                 return false;
 
-            if (!from.test(world.getBlockState(pos).getBlock()))
+            if (!from.test(level.getBlockState(pos).getBlock()))
                 return false;
 
-            SoundType sound = to.getSoundType();
-            world.playSound(null, pos, sound.getPlaceSound(), SoundSource.BLOCKS, (sound.getVolume() + 1.0F) / 2.0F, sound.getPitch() * 0.8F);
-            world.setBlockAndUpdate(pos, to);
+            SoundType sound = to.getBlock().getSoundType(to, level, pos, player);
+            level.playSound(null, pos, sound.getPlaceSound(), SoundSource.BLOCKS, (sound.getVolume() + 1.0F) / 2.0F, sound.getPitch() * 0.8F);
+            level.setBlockAndUpdate(pos, to);
 
             return true;
         };
@@ -200,8 +198,7 @@ public class ToolEffects {
     public static boolean applyPotion(LivingEntity target, Player player) {
         if (target.isAlive()) {
             switch (player.getCommandSenderWorld().random.nextInt(5)) {
-                case 0 -> //noinspection resource
-                        target.hurt(player.level().damageSources().indirectMagic(player, null), 10);
+                case 0 -> target.hurt(player.level().damageSources().indirectMagic(player, null), 10);
                 case 1 -> target.addEffect(new MobEffectInstance(MobEffects.POISON, 600));
                 case 2 -> target.addEffect(new MobEffectInstance(MobEffects.WITHER, 600));
                 case 3 -> target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 600));
@@ -216,12 +213,12 @@ public class ToolEffects {
         if (!player.mayUseItemAt(pos, face, player.getItemInHand(hand)))
             return false;
 
-        if (level.getBlockState(pos).is(Tags.Blocks.COBBLESTONE)
-                || level.getBlockState(pos).is(Tags.Blocks.STONE)) {
+        if (level.getBlockState(pos).is(Tags.Blocks.COBBLESTONES)
+                || level.getBlockState(pos).is(Tags.Blocks.STONES)) {
 
             Block block = ToolEffects.getRandomBlock(Tags.Blocks.ORES);
             BlockState state = block.defaultBlockState();
-            SoundType sound = state.getSoundType();
+            SoundType sound = block.getSoundType(state, level, pos, player);
             level.playSound(null, pos, sound.getPlaceSound(), SoundSource.BLOCKS, (sound.getVolume() + 1.0F) / 2.0F, sound.getPitch() * 0.8F);
             level.setBlockAndUpdate(pos, state);
 
@@ -238,11 +235,11 @@ public class ToolEffects {
         } else if (!player.isShiftKeyDown()) {
             if (block.is(BlockTags.DIRT)) {
                 BlockState newState = Blocks.GRASS_BLOCK.defaultBlockState();
-                SoundType sound = newState.getSoundType();
+                SoundType sound = block.getSoundType(level, pos, player);
                 level.playSound(null, pos, sound.getPlaceSound(), SoundSource.BLOCKS, (sound.getVolume() + 1.0F) / 2.0F, sound.getPitch() * 0.8F);
                 level.setBlockAndUpdate(pos, newState);
                 return true;
-            } else if (block.is(Tags.Blocks.COBBLESTONE) || block.is(Tags.Blocks.STONE)) {
+            } else if (block.is(Tags.Blocks.COBBLESTONES) || block.is(Tags.Blocks.STONES)) {
                 return generateOre(level, player, hand, pos, face);
             }
         } else {
@@ -270,7 +267,7 @@ public class ToolEffects {
             BlockPos target = pos.relative(face);
             BlockState state = level.getBlockState(target);
             if (state.getBlock() instanceof BucketPickup) {
-                ItemStack stack = ((BucketPickup) state.getBlock()).pickupBlock(level, target, state);
+                ItemStack stack = ((BucketPickup) state.getBlock()).pickupBlock(player, level, target, state);
                 if (!stack.isEmpty() && stack.getItem() != Items.BUCKET) {
                     player.playSound(stack.getItem() == Items.LAVA_BUCKET ? SoundEvents.BUCKET_FILL_LAVA : SoundEvents.BUCKET_FILL, 1.0F, 1.0F);
                     for (int x = 0; x < 5; ++x) {
@@ -287,7 +284,6 @@ public class ToolEffects {
 
     private static Block getRandomBlock(TagKey<Block> key) {
         List<Block> blocks = Lists.newArrayList();
-        //noinspection deprecation
         for (Holder<Block> holder : BuiltInRegistries.BLOCK.getTagOrEmpty(key)) {
             blocks.add(holder.value());
         }

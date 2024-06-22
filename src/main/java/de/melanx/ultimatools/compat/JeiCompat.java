@@ -6,12 +6,12 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.registration.IRecipeRegistration;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import javax.annotation.Nonnull;
 
@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 @SuppressWarnings("ConstantConditions")
 public class JeiCompat implements IModPlugin {
 
-    public static final ResourceLocation PLUGIN_UID = new ResourceLocation(SkyblockUltimaTools.MODID, "plugin/main");
+    public static final ResourceLocation PLUGIN_UID = ResourceLocation.fromNamespaceAndPath(SkyblockUltimaTools.MODID, "plugin/main");
 
     @Override
     public @Nonnull
@@ -34,9 +34,9 @@ public class JeiCompat implements IModPlugin {
 
     @Override
     public void registerRecipes(@Nonnull IRecipeRegistration registration) {
-        for (RegistryObject<Item> registryObject : Registration.ITEMS.getEntries()) {
+        for (DeferredHolder<Item, ?> registryObject : Registration.ITEMS.getEntries()) {
             Item item = registryObject.get();
-            registration.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM_STACK, getDescKey(ForgeRegistries.ITEMS.getKey(item)));
+            registration.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM_STACK, getDescKey(BuiltInRegistries.ITEM.getKey(item)));
         }
     }
 }

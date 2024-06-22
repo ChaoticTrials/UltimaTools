@@ -1,5 +1,5 @@
 name: Bug Report
-description: Report an issue with supported versions of SkyblockUltimaTools
+description: Report an issue with supported versions of Skyblock Ultima Tools
 labels: [ bug ]
 body:
   - type: dropdown
@@ -7,22 +7,23 @@ body:
     attributes:
       label: Minecraft version
       options:
-        - 1.19.4
-        - 1.20.1
+        - 1.19.x
+        - 1.20.x
+        - 1.21.x
     validations:
       required: true
   - type: input
     id: mod-version
     attributes:
       label: Skyblock Ultima Tools version
-      placeholder: eg. 1.19.4-3.2.0
+      placeholder: eg. 1.21-5.0.0
     validations:
       required: true
   - type: input
     id: forge-version
     attributes:
-      label: Forge version
-      placeholder: eg. 41.0.3
+      label: (Neo)Forge version
+      placeholder: eg. 21.0.0-beta
     validations:
       required: true
   - type: input

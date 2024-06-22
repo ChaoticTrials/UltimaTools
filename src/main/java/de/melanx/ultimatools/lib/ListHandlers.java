@@ -2,12 +2,12 @@ package de.melanx.ultimatools.lib;
 
 import de.melanx.ultimatools.ServerConfig;
 import de.melanx.ultimatools.SkyblockUltimaTools;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ public class ListHandlers {
     public static void fillOres() {
         ORES.clear();
         ServerConfig.OVERWORLD_ORES.get().forEach(string -> {
-            Block block = ForgeRegistries.BLOCKS.getValue(ResourceLocation.tryParse(string));
+            Block block = BuiltInRegistries.BLOCK.get(ResourceLocation.tryParse(string));
             if (block != Blocks.AIR) {
                 ORES.add(block);
             } else {
@@ -35,7 +35,7 @@ public class ListHandlers {
     public static void fillNetherOres() {
         NETHER_ORES.clear();
         ServerConfig.NETHER_ORES.get().forEach(string -> {
-            Block block = ForgeRegistries.BLOCKS.getValue(ResourceLocation.tryParse(string));
+            Block block = BuiltInRegistries.BLOCK.get(ResourceLocation.tryParse(string));
             if (block != Blocks.AIR) {
                 NETHER_ORES.add(block);
             } else {
@@ -47,10 +47,10 @@ public class ListHandlers {
     public static void fillAnimals() {
         ANIMALS.clear();
         ServerConfig.ANIMALS.get().forEach(string -> {
-            EntityType<?> entity = ForgeRegistries.ENTITY_TYPES.getValue(ResourceLocation.tryParse(string));
+            EntityType<?> entity = BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.tryParse(string));
             if (entity != null) {
                 if (entity.getCategory() == MobCategory.CREATURE || entity.getCategory() == MobCategory.AMBIENT) {
-                    if (ForgeRegistries.ENTITY_TYPES.getKey(entity).toString().equals(string)) {
+                    if (BuiltInRegistries.ENTITY_TYPE.getKey(entity).toString().equals(string)) {
                         ANIMALS.add(entity);
                     } else {
                         SkyblockUltimaTools.LOGGER.error("Entity '{}' not found", string);
@@ -65,10 +65,10 @@ public class ListHandlers {
     public static void fillWaterAnimals() {
         WATER_ANIMALS.clear();
         ServerConfig.WATER_ANIMALS.get().forEach(string -> {
-            EntityType<?> entity = ForgeRegistries.ENTITY_TYPES.getValue(ResourceLocation.tryParse(string));
+            EntityType<?> entity = BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.tryParse(string));
             if (entity != null) {
                 if (entity.getCategory() == MobCategory.WATER_CREATURE || entity.getCategory() == MobCategory.WATER_AMBIENT) {
-                    if (ForgeRegistries.ENTITY_TYPES.getKey(entity).toString().equals(string)) {
+                    if (BuiltInRegistries.ENTITY_TYPE.getKey(entity).toString().equals(string)) {
                         WATER_ANIMALS.add(entity);
                     } else {
                         SkyblockUltimaTools.LOGGER.error("Entity '{}' not found", string);

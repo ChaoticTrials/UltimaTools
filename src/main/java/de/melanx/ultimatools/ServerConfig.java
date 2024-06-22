@@ -1,16 +1,13 @@
 package de.melanx.ultimatools;
 
-import com.electronwill.nightconfig.core.file.CommentedFileConfig;
-import com.electronwill.nightconfig.core.io.WritingMode;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 
 public class ServerConfig {
-    public static final ForgeConfigSpec SERVER_CONFIG;
-    private static final ForgeConfigSpec.Builder SERVER_BUILDER = new ForgeConfigSpec.Builder();
+    public static final ModConfigSpec SERVER_CONFIG;
+    private static final ModConfigSpec.Builder SERVER_BUILDER = new ModConfigSpec.Builder();
 
     static {
         init(SERVER_BUILDER);
@@ -18,30 +15,30 @@ public class ServerConfig {
         SERVER_CONFIG = SERVER_BUILDER.build();
     }
 
-    public static ForgeConfigSpec.ConfigValue<List<? extends String>> OVERWORLD_ORES;
-    public static ForgeConfigSpec.ConfigValue<List<? extends String>> NETHER_ORES;
+    public static ModConfigSpec.ConfigValue<List<? extends String>> OVERWORLD_ORES;
+    public static ModConfigSpec.ConfigValue<List<? extends String>> NETHER_ORES;
 
-    public static ForgeConfigSpec.ConfigValue<List<? extends String>> ANIMALS;
-    public static ForgeConfigSpec.ConfigValue<List<? extends String>> WATER_ANIMALS;
+    public static ModConfigSpec.ConfigValue<List<? extends String>> ANIMALS;
+    public static ModConfigSpec.ConfigValue<List<? extends String>> WATER_ANIMALS;
 
-    public static ForgeConfigSpec.IntValue BEGINNER;
-    public static ForgeConfigSpec.IntValue BLOOD_MAGICIAN;
-    public static ForgeConfigSpec.IntValue CURSED_KNIGHT;
-    public static ForgeConfigSpec.IntValue FARMER;
-    public static ForgeConfigSpec.IntValue ORE_BETTER;
-    public static ForgeConfigSpec.IntValue SCHOLAR;
-    public static ForgeConfigSpec.IntValue SOOTHSAYER;
-    public static ForgeConfigSpec.IntValue ULTIMA_FIGHTER;
-    public static ForgeConfigSpec.IntValue ULTIMA_GOD;
+    public static ModConfigSpec.IntValue BEGINNER;
+    public static ModConfigSpec.IntValue BLOOD_MAGICIAN;
+    public static ModConfigSpec.IntValue CURSED_KNIGHT;
+    public static ModConfigSpec.IntValue FARMER;
+    public static ModConfigSpec.IntValue ORE_BETTER;
+    public static ModConfigSpec.IntValue SCHOLAR;
+    public static ModConfigSpec.IntValue SOOTHSAYER;
+    public static ModConfigSpec.IntValue ULTIMA_FIGHTER;
+    public static ModConfigSpec.IntValue ULTIMA_GOD;
 
-    public static ForgeConfigSpec.IntValue KRYPTO_BEGINNER;
-    public static ForgeConfigSpec.IntValue KRYPTO_BLOOD_MAGICIAN;
-    public static ForgeConfigSpec.IntValue KRYPTO_CURSED_KNIGHT;
-    public static ForgeConfigSpec.IntValue KRYPTO_FARMER;
-    public static ForgeConfigSpec.IntValue KRYPTO_SCHOLAR;
-    public static ForgeConfigSpec.IntValue KRYPTO_SOOTHSAYER;
+    public static ModConfigSpec.IntValue KRYPTO_BEGINNER;
+    public static ModConfigSpec.IntValue KRYPTO_BLOOD_MAGICIAN;
+    public static ModConfigSpec.IntValue KRYPTO_CURSED_KNIGHT;
+    public static ModConfigSpec.IntValue KRYPTO_FARMER;
+    public static ModConfigSpec.IntValue KRYPTO_SCHOLAR;
+    public static ModConfigSpec.IntValue KRYPTO_SOOTHSAYER;
 
-    public static void init(ForgeConfigSpec.Builder builder) {
+    public static void init(ModConfigSpec.Builder builder) {
         builder.push("ores");
         OVERWORLD_ORES = builder.comment("All the ores for upgrading normal ores, order matters")
                 .defineList("overworld", Arrays.asList(
@@ -115,12 +112,5 @@ public class ServerConfig {
         KRYPTO_SCHOLAR = builder.defineInRange("krypto_scholar", 200, 0, Integer.MAX_VALUE);
         KRYPTO_SOOTHSAYER = builder.defineInRange("krypto_soothsayer", 200, 0, Integer.MAX_VALUE);
         builder.pop(2);
-    }
-
-    public static void loadConfig(ForgeConfigSpec spec, Path path) {
-        SkyblockUltimaTools.LOGGER.debug("Loading config file {}", path);
-        final CommentedFileConfig configData = CommentedFileConfig.builder(path).sync().autosave().writingMode(WritingMode.REPLACE).build();
-        configData.load();
-        spec.setConfig(configData);
     }
 }
