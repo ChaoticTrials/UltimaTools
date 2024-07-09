@@ -16,7 +16,8 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
-          java-version: '21'
+          distribution: temurin
+          java-version: 21
 
       - name: Get latest NeoForge
         id: get-version
