@@ -1,0 +1,29 @@
+name: Check NeoForge compatibility
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * 5'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get latest NeoForge
+        id: get-version
+        uses: ChaoticTrials/action-latest-forge@v1.0.0
+        with:
+          minecraft-version: 1.21
+
+      - name: Check compiling
+        uses: ChaoticTrials/action-test-different-property@v1.0.0
+        with:
+          gradle-property: neo_version
+          gradle-value: ${{ steps.get-version.outputs.version }}
+          properties-file: gradle.properties
+          issue-title: [${{ steps.get-version.inputs.minecraft-version }}]NeoForge incompatibility
+          issue-comment: |
+            # NeoForge incompatibility
+            ## NeoForge version
+            - ${{ inputs.gradle-value }}
+          issue-labels: Compat, bug
