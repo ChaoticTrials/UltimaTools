@@ -20,7 +20,7 @@ jobs:
         with:
           gradle-property: neo_version
           gradle-value: ${{ steps.get-version.outputs.version }}
-          properties-file: gradle.properties
+          properties-file: 'gradle.properties'
           issue-title: [${{ steps.get-version.inputs.minecraft-version }}]NeoForge incompatibility
           issue-comment: |
             # NeoForge incompatibility
