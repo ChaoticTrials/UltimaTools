@@ -16,10 +16,10 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BoneMealItem;
@@ -43,9 +43,7 @@ public class ToolEffects {
 
     private static final Random RANDOM = new Random();
 
-    private ToolEffects() {
-
-    }
+    private ToolEffects() {}
 
     public static boolean placeWater(Level level, Player player, InteractionHand hand, BlockPos pos, Direction face) {
         BlockPos target = pos.relative(face);
@@ -80,13 +78,13 @@ public class ToolEffects {
             entityType = ListHandlers.ANIMALS.get(level.random.nextInt(ListHandlers.ANIMALS.size()));
         }
 
-        Mob entity = (Mob) entityType.create(level);
+        Mob entity = (Mob) entityType.create(level, EntitySpawnReason.TRIGGERED);
         if (entity == null)
             return false;
         entity.moveTo(target.getX() + 0.5, target.getY() + 0.1, target.getZ() + 0.5, player.getYHeadRot() - 180, 0);
         if (level instanceof ServerLevel) {
             //noinspection deprecation,OverrideOnly
-            entity.finalizeSpawn((ServerLevel) level, level.getCurrentDifficultyAt(target), MobSpawnType.TRIGGERED, null);
+            entity.finalizeSpawn((ServerLevel) level, level.getCurrentDifficultyAt(target), EntitySpawnReason.TRIGGERED, null);
         }
         if (entity instanceof Animal) {
             ((Animal) entity).setAge(-24000);

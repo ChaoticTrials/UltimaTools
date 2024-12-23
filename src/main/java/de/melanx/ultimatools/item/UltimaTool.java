@@ -6,7 +6,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -84,82 +83,91 @@ public class UltimaTool extends Item {
         this.hitEntity = hitEntity;
     }
 
-    @Override
-    public boolean isEnchantable(@Nonnull ItemStack stack) {
-        return false;
-    }
-
     @Nonnull
     @Override
-    public InteractionResultHolder<ItemStack> use(@Nonnull Level level, @Nonnull Player player, @Nonnull InteractionHand hand) {
-        if (this.applyEffect != null) {
-            ItemStack held = player.getItemInHand(hand);
-            if (!level.isClientSide) {
-                if (!player.getCooldowns().isOnCooldown(this)) {
-                    if (this.applyEffect.apply(level, player, hand)) {
-                        if (!player.isCreative()) player.getCooldowns().addCooldown(this, this.cooldown);
-                        player.setItemInHand(hand, held);
-                        player.swing(hand, false);
-                        return InteractionResultHolder.success(held);
-                    } else {
-                        return InteractionResultHolder.fail(held);
-                    }
-                } else {
-                    return InteractionResultHolder.fail(held);
-                }
-            } else {
-                return InteractionResultHolder.pass(held);
-            }
-        } else {
+    public InteractionResult use(@Nonnull Level level, @Nonnull Player player, @Nonnull InteractionHand hand) {
+        if (this.applyEffect == null) {
             return super.use(level, player, hand);
         }
+
+        ItemStack held = player.getItemInHand(hand);
+        if (level.isClientSide) {
+            return InteractionResult.PASS;
+        }
+
+        if (player.getCooldowns().isOnCooldown(held)) {
+            return InteractionResult.FAIL;
+        }
+
+        if (!this.applyEffect.apply(level, player, hand)) {
+            return InteractionResult.FAIL;
+        }
+
+        if (!player.isCreative()) {
+            player.getCooldowns().addCooldown(held, this.cooldown);
+        }
+
+        player.setItemInHand(hand, held);
+        player.swing(hand, false);
+        return InteractionResult.SUCCESS;
     }
 
     @Nonnull
     @Override
     public InteractionResult useOn(@Nonnull UseOnContext context) {
-        if (this.applyBlock != null && context.getPlayer() != null) {
-            if (!context.getLevel().isClientSide) {
-                if (!context.getPlayer().getCooldowns().isOnCooldown(this)) {
-                    if (this.applyBlock.apply(context.getLevel(), context.getPlayer(), context.getHand(), context.getClickedPos(), context.getClickedFace())) {
-                        if (!context.getPlayer().isCreative()) context.getPlayer().getCooldowns().addCooldown(this, this.cooldown);
-                        context.getPlayer().swing(context.getHand(), false);
-                        return InteractionResult.SUCCESS;
-                    } else {
-                        return InteractionResult.FAIL;
-                    }
-                } else {
-                    return InteractionResult.FAIL;
-                }
-            } else {
-                return InteractionResult.PASS;
-            }
-        } else {
+        if (this.applyBlock == null || context.getPlayer() == null) {
             return super.useOn(context);
         }
+
+        if (context.getLevel().isClientSide) {
+            return InteractionResult.PASS;
+        }
+
+        ItemStack held = context.getItemInHand();
+        if (context.getPlayer().getCooldowns().isOnCooldown(held)) {
+            return InteractionResult.FAIL;
+        }
+
+        if (!this.applyBlock.apply(
+                context.getLevel(),
+                context.getPlayer(),
+                context.getHand(),
+                context.getClickedPos(),
+                context.getClickedFace())) {
+            return InteractionResult.FAIL;
+        }
+
+        if (!context.getPlayer().isCreative()) {
+            context.getPlayer().getCooldowns().addCooldown(held, this.cooldown);
+        }
+
+        context.getPlayer().swing(context.getHand(), false);
+        return InteractionResult.SUCCESS;
     }
 
     @Override
     public boolean hurtEnemy(@Nonnull ItemStack stack, @Nonnull LivingEntity target, @Nonnull LivingEntity attacker) {
-        if (this.hitEntity != null && attacker instanceof Player) {
-            if (!attacker.getCommandSenderWorld().isClientSide) {
-                Player player = (Player) attacker;
-                if (!player.getCooldowns().isOnCooldown(this)) {
-                    if (this.hitEntity.apply(target, player)) {
-                        if (!player.isCreative()) player.getCooldowns().addCooldown(this, this.cooldown);
-                        player.swing(InteractionHand.MAIN_HAND, false);
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else {
-                    return false;
-                }
-            } else {
-                return false;
-            }
-        } else {
+        if (this.hitEntity == null || !(attacker instanceof Player player)) {
             return super.hurtEnemy(stack, target, attacker);
         }
+
+        if (attacker.getCommandSenderWorld().isClientSide) {
+            return false;
+        }
+
+        if (player.getCooldowns().isOnCooldown(stack)) {
+            return false;
+        }
+
+        if (!this.hitEntity.apply(target, player)) {
+            return false;
+        }
+
+        if (!player.isCreative()) {
+            player.getCooldowns().addCooldown(stack, this.cooldown);
+        }
+
+        player.swing(InteractionHand.MAIN_HAND, false);
+        return true;
     }
 }

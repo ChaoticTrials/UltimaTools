@@ -93,7 +93,7 @@ neoForge {
 }
 
 dependencies {
-    implementation "mezz.jei:jei-1.21-neoforge:19.0.0.9"
+    compileOnly "mezz.jei:jei-1.21-neoforge:19.0.0.9"
 }
 
 tasks.withType(ProcessResources).configureEach {
