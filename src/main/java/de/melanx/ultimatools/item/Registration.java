@@ -3,7 +3,6 @@ package de.melanx.ultimatools.item;
 import de.melanx.ultimatools.ServerConfig;
 import de.melanx.ultimatools.SkyblockUltimaTools;
 import de.melanx.ultimatools.util.ToolEffects;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Blocks;
@@ -16,30 +15,30 @@ import java.util.Set;
 
 public class Registration {
 
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(BuiltInRegistries.ITEM, SkyblockUltimaTools.MODID);
+    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(SkyblockUltimaTools.MODID);
 
-    public static final DeferredHolder<Item, UltimaTool> beginner = ITEMS.register("beginner", () -> new UltimaTool(ServerConfig.BEGINNER.get(), ToolEffects::placeWater));
-    public static final DeferredHolder<Item, UltimaTool> bloodMagician = ITEMS.register("blood_magician", () -> new UltimaTool(ServerConfig.BLOOD_MAGICIAN.get(), ToolEffects::spawnAnimal));
-    public static final DeferredHolder<Item, UltimaTool> cursedKnight = ITEMS.register("cursed_knight", () -> new UltimaTool(ServerConfig.CURSED_KNIGHT.get(), ToolEffects::applyMagicDamage));
-    public static final DeferredHolder<Item, UltimaTool> farmer = ITEMS.register("farmer", () -> new UltimaTool(ServerConfig.FARMER.get(), ToolEffects::useBonemeal));
-    public static final DeferredHolder<Item, UltimaCrafting> forestRunner = ITEMS.register("forest_runner", UltimaCrafting::new);
-    public static final DeferredHolder<Item, UltimaCrafting> knight = ITEMS.register("knight", UltimaCrafting::new);
-    public static final DeferredHolder<Item, UltimaCrafting> lighter = ITEMS.register("lighter", UltimaCrafting::new);
-    public static final DeferredHolder<Item, UltimaTool> oreBetter = ITEMS.register("ore_better", () -> new UltimaTool(ServerConfig.ORE_BETTER.get(), ToolEffects::upgradeOre));
-    public static final DeferredHolder<Item, UltimaTool> scholar = ITEMS.register("scholar", () -> new UltimaTool(ServerConfig.SCHOLAR.get(), ToolEffects.changeBlock(BlockTags.DIRT, Blocks.GRASS_BLOCK)));
-    public static final DeferredHolder<Item, UltimaTool> soothsayer = ITEMS.register("soothsayer", () -> new UltimaTool(ServerConfig.SOOTHSAYER.get(), ToolEffects::applyPotion));
-    public static final DeferredHolder<Item, UltimaTool> ultimaFighter = ITEMS.register("ultima_fighter", () -> new UltimaTool(ServerConfig.ULTIMA_FIGHTER.get(), ToolEffects::generateOre));
-    public static final DeferredHolder<Item, UltimaTool> ultimaGod = ITEMS.register("ultima_god", () -> new UltimaTool(ServerConfig.ULTIMA_GOD.get(), ToolEffects::ultimate));
+    public static final DeferredHolder<Item, UltimaTool> beginner = ITEMS.registerItem("beginner", properties -> new UltimaTool(ServerConfig.BEGINNER.get(), ToolEffects::placeWater, properties));
+    public static final DeferredHolder<Item, UltimaTool> bloodMagician = ITEMS.registerItem("blood_magician", properties -> new UltimaTool(ServerConfig.BLOOD_MAGICIAN.get(), ToolEffects::spawnAnimal, properties));
+    public static final DeferredHolder<Item, UltimaTool> cursedKnight = ITEMS.registerItem("cursed_knight", properties -> new UltimaTool(ServerConfig.CURSED_KNIGHT.get(), ToolEffects::applyMagicDamage, properties));
+    public static final DeferredHolder<Item, UltimaTool> farmer = ITEMS.registerItem("farmer", properties -> new UltimaTool(ServerConfig.FARMER.get(), ToolEffects::useBonemeal, properties));
+    public static final DeferredHolder<Item, Item> forestRunner = ITEMS.registerSimpleItem("forest_runner", new Item.Properties().stacksTo(1));
+    public static final DeferredHolder<Item, Item> knight = ITEMS.registerSimpleItem("knight", new Item.Properties().stacksTo(1));
+    public static final DeferredHolder<Item, Item> lighter = ITEMS.registerSimpleItem("lighter", new Item.Properties().stacksTo(1));
+    public static final DeferredHolder<Item, UltimaTool> oreBetter = ITEMS.registerItem("ore_better", properties -> new UltimaTool(ServerConfig.ORE_BETTER.get(), ToolEffects::upgradeOre, properties));
+    public static final DeferredHolder<Item, UltimaTool> scholar = ITEMS.registerItem("scholar", properties -> new UltimaTool(ServerConfig.SCHOLAR.get(), ToolEffects.changeBlock(BlockTags.DIRT, Blocks.GRASS_BLOCK), properties));
+    public static final DeferredHolder<Item, UltimaTool> soothsayer = ITEMS.registerItem("soothsayer", properties -> new UltimaTool(ServerConfig.SOOTHSAYER.get(), ToolEffects::applyPotion, properties));
+    public static final DeferredHolder<Item, UltimaTool> ultimaFighter = ITEMS.registerItem("ultima_fighter", properties -> new UltimaTool(ServerConfig.ULTIMA_FIGHTER.get(), ToolEffects::generateOre, properties));
+    public static final DeferredHolder<Item, UltimaTool> ultimaGod = ITEMS.registerItem("ultima_god", properties -> new UltimaTool(ServerConfig.ULTIMA_GOD.get(), ToolEffects::ultimate, properties));
 
-    public static final DeferredHolder<Item, UltimaTool> kryptoBeginner = ITEMS.register("krypto_beginner", () -> new UltimaTool(ServerConfig.KRYPTO_BEGINNER.get(), ToolEffects::removeFluid));
-    public static final DeferredHolder<Item, UltimaTool> kryptoBloodMagician = ITEMS.register("krypto_blood_magician", () -> new UltimaTool(ServerConfig.KRYPTO_BLOOD_MAGICIAN.get(), ToolEffects::applyRegeneration));
-    public static final DeferredHolder<Item, UltimaTool> kryptoCursedKnight = ITEMS.register("krypto_cursed_knight", () -> new UltimaTool(ServerConfig.KRYPTO_CURSED_KNIGHT.get(), ToolEffects::applyLevitation));
-    public static final DeferredHolder<Item, UltimaTool> kryptoFarmer = ITEMS.register("krypto_farmer", () -> new UltimaTool(ToolEffects.changeBlock(Set.of(Blocks.DIRT, Blocks.COARSE_DIRT, Blocks.GRASS_BLOCK), Blocks.FARMLAND.defaultBlockState().setValue(BlockStateProperties.MOISTURE, 7))));
-    public static final DeferredHolder<Item, UltimaTool> kryptoScholar = ITEMS.register("krypto_scholar", () -> new UltimaTool(ToolEffects.changeBlock(Set.of(Blocks.DIRT, Blocks.COARSE_DIRT), Blocks.STONE)));
-    public static final DeferredHolder<Item, UltimaTool> kryptoSoothsayer = ITEMS.register("krypto_soothsayer", () -> new UltimaTool(ToolEffects.changeBlock(Set.of(Blocks.STONE, Blocks.COBBLESTONE), Blocks.COAL_ORE)));
-    public static final DeferredHolder<Item, UltimaCrafting> kryptoForestRunner = ITEMS.register("krypto_forest_runner", UltimaCrafting::new);
-    public static final DeferredHolder<Item, UltimaCrafting> kryptoKnight = ITEMS.register("krypto_knight", UltimaCrafting::new);
-    public static final DeferredHolder<Item, UltimaCrafting> kryptoLighter = ITEMS.register("krypto_lighter", UltimaCrafting::new);
+    public static final DeferredHolder<Item, UltimaTool> kryptoBeginner = ITEMS.registerItem("krypto_beginner", properties -> new UltimaTool(ServerConfig.KRYPTO_BEGINNER.get(), ToolEffects::removeFluid, properties));
+    public static final DeferredHolder<Item, UltimaTool> kryptoBloodMagician = ITEMS.registerItem("krypto_blood_magician", properties -> new UltimaTool(ServerConfig.KRYPTO_BLOOD_MAGICIAN.get(), ToolEffects::applyRegeneration, properties));
+    public static final DeferredHolder<Item, UltimaTool> kryptoCursedKnight = ITEMS.registerItem("krypto_cursed_knight", properties -> new UltimaTool(ServerConfig.KRYPTO_CURSED_KNIGHT.get(), ToolEffects::applyLevitation, properties));
+    public static final DeferredHolder<Item, UltimaTool> kryptoFarmer = ITEMS.registerItem("krypto_farmer", properties -> new UltimaTool(ToolEffects.changeBlock(Set.of(Blocks.DIRT, Blocks.COARSE_DIRT, Blocks.GRASS_BLOCK), Blocks.FARMLAND.defaultBlockState().setValue(BlockStateProperties.MOISTURE, 7)), properties));
+    public static final DeferredHolder<Item, UltimaTool> kryptoScholar = ITEMS.registerItem("krypto_scholar", properties -> new UltimaTool(ToolEffects.changeBlock(Set.of(Blocks.DIRT, Blocks.COARSE_DIRT), Blocks.STONE), properties));
+    public static final DeferredHolder<Item, UltimaTool> kryptoSoothsayer = ITEMS.registerItem("krypto_soothsayer", properties -> new UltimaTool(ToolEffects.changeBlock(Set.of(Blocks.STONE, Blocks.COBBLESTONE), Blocks.COAL_ORE), properties));
+    public static final DeferredHolder<Item, Item> kryptoForestRunner = ITEMS.registerSimpleItem("krypto_forest_runner", new Item.Properties().stacksTo(1));
+    public static final DeferredHolder<Item, Item> kryptoKnight = ITEMS.registerSimpleItem("krypto_knight", new Item.Properties().stacksTo(1));
+    public static final DeferredHolder<Item, Item> kryptoLighter = ITEMS.registerSimpleItem("krypto_lighter", new Item.Properties().stacksTo(1));
 
     public static void init(IEventBus bus) {
         ITEMS.register(bus);

@@ -23,60 +23,60 @@ public class UltimaTool extends Item {
     private final Function5<Level, Player, InteractionHand, BlockPos, Direction, Boolean> applyBlock;
     private final BiFunction<LivingEntity, Player, Boolean> hitEntity;
 
-    public UltimaTool(Function3<Level, Player, InteractionHand, Boolean> applyEffect) {
-        this(100, applyEffect);
+    public UltimaTool(Function3<Level, Player, InteractionHand, Boolean> applyEffect, Item.Properties properties) {
+        this(100, applyEffect, properties);
     }
 
-    public UltimaTool(int cooldown, Function3<Level, Player, InteractionHand, Boolean> applyEffect) {
-        super(new Item.Properties().stacksTo(1).durability(cooldown));
+    public UltimaTool(int cooldown, Function3<Level, Player, InteractionHand, Boolean> applyEffect, Item.Properties properties) {
+        super(properties.stacksTo(1).durability(cooldown));
         this.cooldown = cooldown;
         this.applyEffect = applyEffect;
         this.applyBlock = null;
         this.hitEntity = null;
     }
 
-    public UltimaTool(Function5<Level, Player, InteractionHand, BlockPos, Direction, Boolean> applyBlock) {
-        this(100, applyBlock);
+    public UltimaTool(Function5<Level, Player, InteractionHand, BlockPos, Direction, Boolean> applyBlock, Item.Properties properties) {
+        this(100, applyBlock, properties);
     }
 
-    public UltimaTool(int cooldown, Function5<Level, Player, InteractionHand, BlockPos, Direction, Boolean> applyBlock) {
-        super(new Item.Properties().stacksTo(1).durability(cooldown));
+    public UltimaTool(int cooldown, Function5<Level, Player, InteractionHand, BlockPos, Direction, Boolean> applyBlock, Item.Properties properties) {
+        super(properties.stacksTo(1).durability(cooldown));
         this.cooldown = cooldown;
         this.applyEffect = null;
         this.applyBlock = applyBlock;
         this.hitEntity = null;
     }
 
-    public UltimaTool(Function3<Level, Player, InteractionHand, Boolean> applyEffect, BiFunction<LivingEntity, Player, Boolean> hitEntity) {
-        this(100, applyEffect, hitEntity);
+    public UltimaTool(Function3<Level, Player, InteractionHand, Boolean> applyEffect, BiFunction<LivingEntity, Player, Boolean> hitEntity, Item.Properties properties) {
+        this(100, applyEffect, hitEntity, properties);
     }
 
-    public UltimaTool(int cooldown, Function3<Level, Player, InteractionHand, Boolean> applyEffect, BiFunction<LivingEntity, Player, Boolean> hitEntity) {
-        super(new Item.Properties().stacksTo(1).durability(cooldown));
+    public UltimaTool(int cooldown, Function3<Level, Player, InteractionHand, Boolean> applyEffect, BiFunction<LivingEntity, Player, Boolean> hitEntity, Item.Properties properties) {
+        super(properties.stacksTo(1).durability(cooldown));
         this.cooldown = cooldown;
         this.applyEffect = applyEffect;
         this.applyBlock = null;
         this.hitEntity = hitEntity;
     }
 
-    public UltimaTool(BiFunction<LivingEntity, Player, Boolean> hitEntity) {
-        this(100, hitEntity);
+    public UltimaTool(BiFunction<LivingEntity, Player, Boolean> hitEntity, Item.Properties properties) {
+        this(100, hitEntity, properties);
     }
 
-    public UltimaTool(int cooldown, BiFunction<LivingEntity, Player, Boolean> hitEntity) {
-        super(new Item.Properties().stacksTo(1).durability(cooldown));
+    public UltimaTool(int cooldown, BiFunction<LivingEntity, Player, Boolean> hitEntity, Item.Properties properties) {
+        super(properties.stacksTo(1).durability(cooldown));
         this.cooldown = cooldown;
         this.applyEffect = null;
         this.applyBlock = null;
         this.hitEntity = hitEntity;
     }
 
-    public UltimaTool(Function5<Level, Player, InteractionHand, BlockPos, Direction, Boolean> applyBlock, BiFunction<LivingEntity, Player, Boolean> hitEntity) {
-        this(100, applyBlock, hitEntity);
+    public UltimaTool(Function5<Level, Player, InteractionHand, BlockPos, Direction, Boolean> applyBlock, BiFunction<LivingEntity, Player, Boolean> hitEntity, Item.Properties properties) {
+        this(100, applyBlock, hitEntity, properties);
     }
 
-    public UltimaTool(int cooldown, Function5<Level, Player, InteractionHand, BlockPos, Direction, Boolean> applyBlock, BiFunction<LivingEntity, Player, Boolean> hitEntity) {
-        super(new Item.Properties().stacksTo(1).durability(cooldown));
+    public UltimaTool(int cooldown, Function5<Level, Player, InteractionHand, BlockPos, Direction, Boolean> applyBlock, BiFunction<LivingEntity, Player, Boolean> hitEntity, Item.Properties properties) {
+        super(properties.stacksTo(1).durability(cooldown));
         this.cooldown = cooldown;
         this.applyEffect = null;
         this.applyBlock = applyBlock;
