@@ -4,10 +4,12 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class ServerConfig {
     public static final ModConfigSpec SERVER_CONFIG;
     private static final ModConfigSpec.Builder SERVER_BUILDER = new ModConfigSpec.Builder();
+    private static final Supplier<String> NEW_ENTRY_SUPPLIER = () -> "minecraft:*";
 
     static {
         init(SERVER_BUILDER);
@@ -48,12 +50,12 @@ public class ServerConfig {
                         "minecraft:gold_ore",
                         "minecraft:diamond_ore",
                         "minecraft:emerald_ore"
-                ), (obj) -> obj instanceof String);
+                ), NEW_ENTRY_SUPPLIER, (obj) -> obj instanceof String);
         NETHER_ORES = builder.comment("All the ores for upgrading nether ores, order matters")
                 .defineList("nether", Arrays.asList(
                         "minecraft:nether_quartz_ore",
                         "minecraft:nether_gold_ore"
-                ), (obj) -> obj instanceof String);
+                ), NEW_ENTRY_SUPPLIER, (obj) -> obj instanceof String);
         builder.pop();
 
         builder.push("animals");
@@ -79,7 +81,7 @@ public class ServerConfig {
                         "minecraft:sheep",
                         "minecraft:turtle",
                         "minecraft:wolf"
-                ), (obj) -> obj instanceof String);
+                ), NEW_ENTRY_SUPPLIER, (obj) -> obj instanceof String);
         WATER_ANIMALS = builder.comment("All animals which can spawn in water randomly")
                 .defineList("water_animals", Arrays.asList(
                         "minecraft:cod",
@@ -88,7 +90,7 @@ public class ServerConfig {
                         "minecraft:salmon",
                         "minecraft:squid",
                         "minecraft:tropical_fish"
-                ), (obj) -> obj instanceof String);
+                ), NEW_ENTRY_SUPPLIER, (obj) -> obj instanceof String);
         builder.pop();
 
         builder.comment("Cooldowns for the crystals").push("cooldowns");
