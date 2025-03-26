@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -24,13 +25,16 @@ import org.apache.logging.log4j.Logger;
 @Mod(SkyblockUltimaTools.MODID)
 public class SkyblockUltimaTools {
 
-    public SkyblockUltimaTools(IEventBus bus, ModContainer modContainer) {
+    public SkyblockUltimaTools(Dist dist, IEventBus bus, ModContainer modContainer) {
         modContainer.registerConfig(ModConfig.Type.STARTUP, ServerConfig.SERVER_CONFIG);
         Registration.init(bus);
         bus.addListener(this::onServerStarted);
         bus.addListener(this::onConfigChange);
         bus.addListener(this::creativeModTab);
-        modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+
+        if (dist.isClient()) {
+            modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+        }
     }
 
     public static final String MODID = "ultimatools";

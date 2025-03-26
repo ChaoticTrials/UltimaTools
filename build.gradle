@@ -10,9 +10,8 @@ repositories {
 }
 
 var dev = System.getenv('IS_DEV')?.toBoolean() ?: false
-var baseVersion = '21.4'
+var baseVersion = '21.5'
 var jeiVersion = '19.21.0.247'
-var modBaseVersion = '1.21.4-5.2'
 
 mod.configure {
     modid 'ultimatools'
@@ -22,12 +21,12 @@ mod.configure {
             def gitCommitHash = ['git', 'rev-parse', 'HEAD'].execute().text.trim()
             constant baseVersion + (gitCommitHash ? "-${gitCommitHash}" : '')
         } else {
-            base modBaseVersion
+            base baseVersion
             maven 'https://maven.melanx.de/release'
         }
     }
 
-    neoforge project.hasProperty('neo_version') ? project.neo_version : "${baseVersion}.89-beta"
+    neoforge project.hasProperty('neo_version') ? project.neo_version : "${baseVersion}.0-beta"
 
     license 'MIT License'
     github 'ChaoticTrials/UltimaTools'

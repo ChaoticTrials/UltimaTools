@@ -146,21 +146,16 @@ public class UltimaTool extends Item {
     }
 
     @Override
-    public boolean hurtEnemy(@Nonnull ItemStack stack, @Nonnull LivingEntity target, @Nonnull LivingEntity attacker) {
+    public void hurtEnemy(@Nonnull ItemStack stack, @Nonnull LivingEntity target, @Nonnull LivingEntity attacker) {
         if (this.hitEntity == null || !(attacker instanceof Player player)) {
-            return super.hurtEnemy(stack, target, attacker);
+            super.hurtEnemy(stack, target, attacker);
+            return;
         }
 
-        if (attacker.getCommandSenderWorld().isClientSide) {
-            return false;
-        }
-
-        if (player.getCooldowns().isOnCooldown(stack)) {
-            return false;
-        }
-
-        if (!this.hitEntity.apply(target, player)) {
-            return false;
+        if (attacker.getCommandSenderWorld().isClientSide
+                || player.getCooldowns().isOnCooldown(stack)
+                || !this.hitEntity.apply(target, player)) {
+            return;
         }
 
         if (!player.isCreative()) {
@@ -168,6 +163,5 @@ public class UltimaTool extends Item {
         }
 
         player.swing(InteractionHand.MAIN_HAND, false);
-        return true;
     }
 }

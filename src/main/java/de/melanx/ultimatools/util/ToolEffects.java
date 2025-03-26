@@ -81,7 +81,7 @@ public class ToolEffects {
         Mob entity = (Mob) entityType.create(level, EntitySpawnReason.TRIGGERED);
         if (entity == null)
             return false;
-        entity.moveTo(target.getX() + 0.5, target.getY() + 0.1, target.getZ() + 0.5, player.getYHeadRot() - 180, 0);
+        entity.snapTo(target.getX() + 0.5, target.getY() + 0.1, target.getZ() + 0.5, player.getYHeadRot() - 180, 0);
         if (level instanceof ServerLevel) {
             //noinspection deprecation,OverrideOnly
             entity.finalizeSpawn((ServerLevel) level, level.getCurrentDifficultyAt(target), EntitySpawnReason.TRIGGERED, null);
@@ -200,7 +200,7 @@ public class ToolEffects {
                 case 1 -> target.addEffect(new MobEffectInstance(MobEffects.POISON, 600));
                 case 2 -> target.addEffect(new MobEffectInstance(MobEffects.WITHER, 600));
                 case 3 -> target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 600));
-                default -> target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 600, 3));
+                default -> target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 600, 3));
             }
             return true;
         }
