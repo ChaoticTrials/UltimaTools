@@ -195,7 +195,7 @@ public class ToolEffects {
 
     public static boolean applyPotion(LivingEntity target, Player player) {
         if (target.isAlive()) {
-            switch (player.getCommandSenderWorld().random.nextInt(5)) {
+            switch(player.level().random.nextInt(5)) {
                 case 0 -> target.hurt(player.level().damageSources().indirectMagic(player, null), 10);
                 case 1 -> target.addEffect(new MobEffectInstance(MobEffects.POISON, 600));
                 case 2 -> target.addEffect(new MobEffectInstance(MobEffects.WITHER, 600));

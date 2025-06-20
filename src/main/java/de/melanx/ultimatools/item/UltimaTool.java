@@ -152,7 +152,7 @@ public class UltimaTool extends Item {
             return;
         }
 
-        if (attacker.getCommandSenderWorld().isClientSide
+        if (attacker.level().isClientSide
                 || player.getCooldowns().isOnCooldown(stack)
                 || !this.hitEntity.apply(target, player)) {
             return;
