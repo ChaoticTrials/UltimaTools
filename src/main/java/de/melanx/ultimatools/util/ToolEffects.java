@@ -26,11 +26,13 @@ import net.minecraft.world.item.BoneMealItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.event.EventHooks;
 import org.apache.commons.compress.utils.Lists;
 
 import java.util.Collections;
@@ -83,8 +85,7 @@ public class ToolEffects {
             return false;
         entity.snapTo(target.getX() + 0.5, target.getY() + 0.1, target.getZ() + 0.5, player.getYHeadRot() - 180, 0);
         if (level instanceof ServerLevel) {
-            //noinspection deprecation,OverrideOnly
-            entity.finalizeSpawn((ServerLevel) level, level.getCurrentDifficultyAt(target), EntitySpawnReason.TRIGGERED, null);
+            EventHooks.finalizeMobSpawn(entity, (ServerLevelAccessor) level, level.getCurrentDifficultyAt(target), EntitySpawnReason.TRIGGERED, null);
         }
         if (entity instanceof Animal) {
             ((Animal) entity).setAge(-24000);
@@ -96,6 +97,7 @@ public class ToolEffects {
 
     public static boolean applyMagicDamage(LivingEntity target, Player player) {
         if (target.isAlive()) {
+            //noinspection deprecation
             target.hurt(player.level().damageSources().indirectMagic(player, null), 60);
             return true;
         }
@@ -196,7 +198,8 @@ public class ToolEffects {
     public static boolean applyPotion(LivingEntity target, Player player) {
         if (target.isAlive()) {
             switch(player.level().random.nextInt(5)) {
-                case 0 -> target.hurt(player.level().damageSources().indirectMagic(player, null), 10);
+                case 0 -> // noinspection deprecation
+                        target.hurt(player.level().damageSources().indirectMagic(player, null), 10);
                 case 1 -> target.addEffect(new MobEffectInstance(MobEffects.POISON, 600));
                 case 2 -> target.addEffect(new MobEffectInstance(MobEffects.WITHER, 600));
                 case 3 -> target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 600));

@@ -49,6 +49,8 @@ mod.configure {
     upload {
         all {
             type 'release'
+            version '1.21.6'
+            version '1.21.7'
         }
         curseforge {
             projectId 315068
