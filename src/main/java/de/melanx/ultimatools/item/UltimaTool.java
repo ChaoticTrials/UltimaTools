@@ -91,7 +91,7 @@ public class UltimaTool extends Item {
         }
 
         ItemStack held = player.getItemInHand(hand);
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             return InteractionResult.PASS;
         }
 
@@ -119,7 +119,7 @@ public class UltimaTool extends Item {
             return super.useOn(context);
         }
 
-        if (context.getLevel().isClientSide) {
+        if (context.getLevel().isClientSide()) {
             return InteractionResult.PASS;
         }
 
@@ -152,7 +152,7 @@ public class UltimaTool extends Item {
             return;
         }
 
-        if (attacker.level().isClientSide
+        if (attacker.level().isClientSide()
                 || player.getCooldowns().isOnCooldown(stack)
                 || !this.hitEntity.apply(target, player)) {
             return;
