@@ -3,7 +3,7 @@ package de.melanx.ultimatools.lib;
 import de.melanx.ultimatools.ServerConfig;
 import de.melanx.ultimatools.SkyblockUltimaTools;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.block.Block;
@@ -23,7 +23,7 @@ public class ListHandlers {
     public static void fillOres() {
         ORES.clear();
         ServerConfig.OVERWORLD_ORES.get().forEach(string -> {
-            Block block = BuiltInRegistries.BLOCK.getValue(ResourceLocation.tryParse(string));
+            Block block = BuiltInRegistries.BLOCK.getValue(Identifier.tryParse(string));
             if (block != Blocks.AIR) {
                 ORES.add(block);
             } else {
@@ -35,7 +35,7 @@ public class ListHandlers {
     public static void fillNetherOres() {
         NETHER_ORES.clear();
         ServerConfig.NETHER_ORES.get().forEach(string -> {
-            Block block = BuiltInRegistries.BLOCK.getValue(ResourceLocation.tryParse(string));
+            Block block = BuiltInRegistries.BLOCK.getValue(Identifier.tryParse(string));
             if (block != Blocks.AIR) {
                 NETHER_ORES.add(block);
             } else {
@@ -47,7 +47,7 @@ public class ListHandlers {
     public static void fillAnimals() {
         ANIMALS.clear();
         ServerConfig.ANIMALS.get().forEach(string -> {
-            EntityType<?> entity = BuiltInRegistries.ENTITY_TYPE.getValue(ResourceLocation.tryParse(string));
+            EntityType<?> entity = BuiltInRegistries.ENTITY_TYPE.getValue(Identifier.tryParse(string));
             if (entity != null) {
                 if (entity.getCategory() == MobCategory.CREATURE || entity.getCategory() == MobCategory.AMBIENT) {
                     if (BuiltInRegistries.ENTITY_TYPE.getKey(entity).toString().equals(string)) {
@@ -65,7 +65,7 @@ public class ListHandlers {
     public static void fillWaterAnimals() {
         WATER_ANIMALS.clear();
         ServerConfig.WATER_ANIMALS.get().forEach(string -> {
-            EntityType<?> entity = BuiltInRegistries.ENTITY_TYPE.getValue(ResourceLocation.tryParse(string));
+            EntityType<?> entity = BuiltInRegistries.ENTITY_TYPE.getValue(Identifier.tryParse(string));
             if (entity != null) {
                 if (entity.getCategory() == MobCategory.WATER_CREATURE || entity.getCategory() == MobCategory.WATER_AMBIENT) {
                     if (BuiltInRegistries.ENTITY_TYPE.getKey(entity).toString().equals(string)) {

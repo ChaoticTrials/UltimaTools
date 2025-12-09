@@ -84,8 +84,8 @@ public class ToolEffects {
         if (entity == null)
             return false;
         entity.snapTo(target.getX() + 0.5, target.getY() + 0.1, target.getZ() + 0.5, player.getYHeadRot() - 180, 0);
-        if (level instanceof ServerLevel) {
-            EventHooks.finalizeMobSpawn(entity, (ServerLevelAccessor) level, level.getCurrentDifficultyAt(target), EntitySpawnReason.TRIGGERED, null);
+        if (level instanceof ServerLevel serverLevel) {
+            EventHooks.finalizeMobSpawn(entity, (ServerLevelAccessor) level, serverLevel.getCurrentDifficultyAt(target), EntitySpawnReason.TRIGGERED, null);
         }
         if (entity instanceof Animal) {
             ((Animal) entity).setAge(-24000);

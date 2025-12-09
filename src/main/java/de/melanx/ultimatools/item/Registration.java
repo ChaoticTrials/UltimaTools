@@ -23,9 +23,9 @@ public class Registration {
     public static final DeferredHolder<Item, UltimaTool> bloodMagician = ITEMS.registerItem("blood_magician", properties -> new UltimaTool(ServerConfig.BLOOD_MAGICIAN.get(), ToolEffects::spawnAnimal, properties));
     public static final DeferredHolder<Item, UltimaTool> cursedKnight = ITEMS.registerItem("cursed_knight", properties -> new UltimaTool(ServerConfig.CURSED_KNIGHT.get(), ToolEffects::applyMagicDamage, properties.component(DataComponents.WEAPON, new Weapon(1))));
     public static final DeferredHolder<Item, UltimaTool> farmer = ITEMS.registerItem("farmer", properties -> new UltimaTool(ServerConfig.FARMER.get(), ToolEffects::useBonemeal, properties));
-    public static final DeferredHolder<Item, Item> forestRunner = ITEMS.registerSimpleItem("forest_runner", new Item.Properties().stacksTo(1));
-    public static final DeferredHolder<Item, Item> knight = ITEMS.registerSimpleItem("knight", new Item.Properties().stacksTo(1));
-    public static final DeferredHolder<Item, Item> lighter = ITEMS.registerSimpleItem("lighter", new Item.Properties().stacksTo(1));
+    public static final DeferredHolder<Item, Item> forestRunner = ITEMS.registerSimpleItem("forest_runner", () -> new Item.Properties().stacksTo(1));
+    public static final DeferredHolder<Item, Item> knight = ITEMS.registerSimpleItem("knight", () -> new Item.Properties().stacksTo(1));
+    public static final DeferredHolder<Item, Item> lighter = ITEMS.registerSimpleItem("lighter", () -> new Item.Properties().stacksTo(1));
     public static final DeferredHolder<Item, UltimaTool> oreBetter = ITEMS.registerItem("ore_better", properties -> new UltimaTool(ServerConfig.ORE_BETTER.get(), ToolEffects::upgradeOre, properties));
     public static final DeferredHolder<Item, UltimaTool> scholar = ITEMS.registerItem("scholar", properties -> new UltimaTool(ServerConfig.SCHOLAR.get(), ToolEffects.changeBlock(BlockTags.DIRT, Blocks.GRASS_BLOCK), properties));
     public static final DeferredHolder<Item, UltimaTool> soothsayer = ITEMS.registerItem("soothsayer", properties -> new UltimaTool(ServerConfig.SOOTHSAYER.get(), ToolEffects::applyPotion, properties.component(DataComponents.WEAPON, new Weapon(1))));
@@ -38,9 +38,9 @@ public class Registration {
     public static final DeferredHolder<Item, UltimaTool> kryptoFarmer = ITEMS.registerItem("krypto_farmer", properties -> new UltimaTool(ToolEffects.changeBlock(Set.of(Blocks.DIRT, Blocks.COARSE_DIRT, Blocks.GRASS_BLOCK), Blocks.FARMLAND.defaultBlockState().setValue(BlockStateProperties.MOISTURE, 7)), properties));
     public static final DeferredHolder<Item, UltimaTool> kryptoScholar = ITEMS.registerItem("krypto_scholar", properties -> new UltimaTool(ToolEffects.changeBlock(Set.of(Blocks.DIRT, Blocks.COARSE_DIRT), Blocks.STONE), properties));
     public static final DeferredHolder<Item, UltimaTool> kryptoSoothsayer = ITEMS.registerItem("krypto_soothsayer", properties -> new UltimaTool(ToolEffects.changeBlock(Set.of(Blocks.STONE, Blocks.COBBLESTONE), Blocks.COAL_ORE), properties));
-    public static final DeferredHolder<Item, Item> kryptoForestRunner = ITEMS.registerSimpleItem("krypto_forest_runner", new Item.Properties().stacksTo(1));
-    public static final DeferredHolder<Item, Item> kryptoKnight = ITEMS.registerSimpleItem("krypto_knight", new Item.Properties().stacksTo(1));
-    public static final DeferredHolder<Item, Item> kryptoLighter = ITEMS.registerSimpleItem("krypto_lighter", new Item.Properties().stacksTo(1));
+    public static final DeferredHolder<Item, Item> kryptoForestRunner = ITEMS.registerSimpleItem("krypto_forest_runner", () -> new Item.Properties().stacksTo(1));
+    public static final DeferredHolder<Item, Item> kryptoKnight = ITEMS.registerSimpleItem("krypto_knight", () -> new Item.Properties().stacksTo(1));
+    public static final DeferredHolder<Item, Item> kryptoLighter = ITEMS.registerSimpleItem("krypto_lighter", () -> new Item.Properties().stacksTo(1));
 
     public static void init(IEventBus bus) {
         ITEMS.register(bus);

@@ -4,7 +4,7 @@ import de.melanx.ultimatools.item.Registration;
 import de.melanx.ultimatools.lib.ListHandlers;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -42,7 +42,7 @@ public class SkyblockUltimaTools {
 
     private void creativeModTab(RegisterEvent event) {
         event.register(Registries.CREATIVE_MODE_TAB, helper -> {
-            helper.register(ResourceLocation.fromNamespaceAndPath(MODID, "tab"), CreativeModeTab.builder()
+            helper.register(Identifier.fromNamespaceAndPath(MODID, "tab"), CreativeModeTab.builder()
                     .title(Component.literal("Skyblock Ultima Tools"))
                     .icon(() -> new ItemStack(Registration.ultimaGod.get()))
                     .displayItems((params, output) -> {
