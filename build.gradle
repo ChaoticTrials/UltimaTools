@@ -1,5 +1,5 @@
 plugins {
-    id 'org.moddingx.modgradle.meta' version '5.1.0'
+    id 'org.moddingx.modgradle.meta' version '5.1.1'
 }
 
 repositories {
@@ -10,8 +10,9 @@ repositories {
 }
 
 var dev = System.getenv('IS_DEV')?.toBoolean() ?: false
-var baseVersion = '21.11'
-var jeiVersion = '21.3.2.22'
+var releaseType = 'release'
+var baseVersion = '26.1'
+var jeiVersion = '27.4.0.17'
 
 mod.configure {
     modid 'ultimatools'
@@ -26,7 +27,7 @@ mod.configure {
         }
     }
 
-    neoforge "${baseVersion}.0-beta"
+    neoforge "${baseVersion}.0.1-beta"
 
     license 'MIT License'
     github 'ChaoticTrials/UltimaTools'
@@ -48,8 +49,8 @@ mod.configure {
 
     upload {
         all {
-            type 'release'
-            version '1.21.11'
+            type releaseType
+            version '26.1'
         }
         curseforge {
             projectId 315068
@@ -61,5 +62,5 @@ mod.configure {
 }
 
 dependencies {
-    compileOnly "mezz.jei:jei-1.21.5-neoforge:${jeiVersion}"
+    compileOnly "mezz.jei:jei-1.21.11-neoforge:${jeiVersion}"
 }

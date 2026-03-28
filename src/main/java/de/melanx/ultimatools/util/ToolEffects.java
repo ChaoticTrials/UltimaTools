@@ -13,6 +13,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -75,9 +76,9 @@ public class ToolEffects {
         EntityType<?> entityType;
         if (level.getBlockState(target).getFluidState().getType() == Fluids.WATER
                 || level.getBlockState(target).getFluidState().getType() == Fluids.FLOWING_WATER) {
-            entityType = ListHandlers.WATER_ANIMALS.get(level.random.nextInt(ListHandlers.WATER_ANIMALS.size()));
+            entityType = ListHandlers.WATER_ANIMALS.get(level.getRandom().nextInt(ListHandlers.WATER_ANIMALS.size()));
         } else {
-            entityType = ListHandlers.ANIMALS.get(level.random.nextInt(ListHandlers.ANIMALS.size()));
+            entityType = ListHandlers.ANIMALS.get(level.getRandom().nextInt(ListHandlers.ANIMALS.size()));
         }
 
         Mob entity = (Mob) entityType.create(level, EntitySpawnReason.TRIGGERED);
@@ -197,7 +198,7 @@ public class ToolEffects {
 
     public static boolean applyPotion(LivingEntity target, Player player) {
         if (target.isAlive()) {
-            switch(player.level().random.nextInt(5)) {
+            switch(player.level().getRandom().nextInt(5)) {
                 case 0 -> // noinspection deprecation
                         target.hurt(player.level().damageSources().indirectMagic(player, null), 10);
                 case 1 -> target.addEffect(new MobEffectInstance(MobEffects.POISON, 600));
@@ -264,23 +265,28 @@ public class ToolEffects {
     }
 
     public static boolean removeFluid(Level level, Player player, InteractionHand hand, BlockPos pos, Direction face) {
-        if (player.mayUseItemAt(pos, face, player.getItemInHand(hand))) {
-            BlockPos target = pos.relative(face);
-            BlockState state = level.getBlockState(target);
-            if (state.getBlock() instanceof BucketPickup) {
-                ItemStack stack = ((BucketPickup) state.getBlock()).pickupBlock(player, level, target, state);
-                if (!stack.isEmpty() && stack.getItem() != Items.BUCKET) {
-                    player.playSound(stack.getItem() == Items.LAVA_BUCKET ? SoundEvents.BUCKET_FILL_LAVA : SoundEvents.BUCKET_FILL, 1.0F, 1.0F);
-                    for (int x = 0; x < 5; ++x) {
-                        level.addParticle(ParticleTypes.POOF, pos.getX() + level.random.nextDouble(), pos.getY() + level.random.nextDouble(), pos.getZ() + level.random.nextDouble(), 0.0D, 0.0D, 0.0D);
-                    }
-
-                    return true;
-                }
-            }
+        if (!player.mayUseItemAt(pos, face, player.getItemInHand(hand))) {
+            return false;
         }
 
-        return false;
+        BlockPos target = pos.relative(face);
+        BlockState state = level.getBlockState(target);
+        if (!(state.getBlock() instanceof BucketPickup bucketPickup)) {
+            return false;
+        }
+
+        ItemStack stack = bucketPickup.pickupBlock(player, level, target, state);
+        if (stack.isEmpty() || stack.getItem() == Items.BUCKET) {
+            return false;
+        }
+
+        player.playSound(stack.getItem() == Items.LAVA_BUCKET ? SoundEvents.BUCKET_FILL_LAVA : SoundEvents.BUCKET_FILL, 1.0F, 1.0F);
+        RandomSource random = level.getRandom();
+        for (int x = 0; x < 5; ++x) {
+            level.addParticle(ParticleTypes.POOF, pos.getX() + random.nextDouble(), pos.getY() + random.nextDouble(), pos.getZ() + random.nextDouble(), 0.0D, 0.0D, 0.0D);
+        }
+
+        return true;
     }
 
     private static Block getRandomBlock(TagKey<Block> key) {
